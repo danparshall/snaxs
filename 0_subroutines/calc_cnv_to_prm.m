@@ -1,0 +1,25 @@
+function prm=calc_cnv_to_prm(XTAL, cnv, EXP);
+% prm=calc_cnv_to_prm(XTAL, cnv, EXP);
+%	convert convential unit cell values into primitive unit cell values
+%	needed for anapert() or phonopy()
+% 	cnv and prm are Nx3 matrices, where N is number of Q-points
+
+if size(cnv,2) ~= 3;
+	error(' Input "cnv" must be 3-column');
+	prm=[];
+	return
+end
+
+if exist('EXP')
+	if isfield(EXP,'basis_user');
+		basis_user=EXP.basis_user;
+	else
+		basis_user=eye(3);
+	end
+else
+	basis_user=eye(3);
+end
+
+prm = cnv * inv(basis_user);
+
+%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%
