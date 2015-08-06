@@ -10,12 +10,37 @@ int=DATA.int;
 centers=DATA.centers;
 heights=DATA.heights;
 
-%% === plot profile ===
+% to save plot without displaying:
+% http://stackoverflow.com/questions/8722123/octavematlab-how-create-plots-without-displaying
+% http://stackoverflow.com/questions/963674/in-matlab-how-do-i-plot-to-an-image-and-save-the-result-without-displaying-it
+
+
+if system_octave & PLOT.quiet
+	% confirm that gnuplot is an option
+	kits = available_graphics_toolkits;
+	if sum(strcmp('gnuplot', kits))
+		graphics_toolkit gnuplot;
+%		graphics_toolkit fltk;
+	else
+		warning(' gnuplot not available');
+	end
+end
+
+
+%% === generate figure, set visible status ===
 hold off;
+if PLOT.quiet
+	fh = figure('visible','off');
+else
+	fh = figure('visible','on');
+end
+
+
+%% === plot profile ===
 if PLOT.semilog
-    fh=semilogy(eng, int, 'linewidth', 3);
+    semilogy(eng, int, 'linewidth', 3);
 else % plot linear
-    fh=plot(eng, int, 'linewidth', 3);
+    plot(eng, int, 'linewidth', 3);
 end
 
 
@@ -24,6 +49,7 @@ if PLOT.markers
 	hold on;
 	if system_octave;
 		plot(centers, heights, '.', 'markers', 12, 'color', 'red');
+%		plot(centers, heights, '.', 'color', 'red');
 	else
 		plot(centers, heights, 'o', 'markers', 6, 'color', 'red', 'markerfacecolor', 'red');
 	end
@@ -54,7 +80,12 @@ vec(1)=INFO.e_min;
 vec(2)=INFO.e_max;
 axis(vec);
 
-set(gcf,'name','E-scan');
+set(fh,'name','E-scan');
 plot_pretty(PAR,fh,fa,'escan');
+
+if PLOT.quiet
+	print -dpng 'testfig.png'
+end
+ 
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

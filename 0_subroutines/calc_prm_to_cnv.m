@@ -10,13 +10,14 @@ if size(prm,2) ~= 3;
 	return;
 end
 
+basis_user=[];
 if exist('EXP')
 	if isfield(EXP,'basis_user');
 		basis_user=EXP.basis_user;
-	else
-		basis_user=eye(3);
 	end
-else
+end
+
+if isempty(basis_user)
 	basis_user=eye(3);
 end
 

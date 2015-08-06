@@ -12,7 +12,7 @@ E_array= DATA.E_array;
 
 
 if ~isreal(DATA.SQE_array)
-	error(' SQE_array not real; error in calculation.\n Taking real part of data.');
+	warning(' SQE_array not real; error in calculation; taking real part of data.');
 	DATA.SQE_array=real(DATA.SQE_array);
 end
 
@@ -44,6 +44,10 @@ else
 	% === plot in linear or log scale ===
 	if PLOT.semilog
 		logdat=log(DATA.SQE_array);
+		if ~isreal(logdat)
+			warning(' logdat array not real; error in calculation; taking real part of data.');
+			logdat = real(logdat);
+		end
 		mval=max(max(logdat));
 		mins = mval - PLOT.decades;
 		logdat(logdat < mins) = mins;

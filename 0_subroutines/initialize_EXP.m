@@ -1,41 +1,51 @@
-function [PAR,check]=initialize_EXP(PAR)
-% [PAR,check]=initialize_EXP(PAR)
+function [PAR,pass]=initialize_EXP(PAR)
+% [PAR,pass]=initialize_EXP(PAR)
 % 	Check that EXP is a structure.  Warns the user of most likely error if not.
-% 	Confirm experiment type, user basis, lattice constants, etc
+%	Performs a series of sanity checks, sets default values as appropriate.
+%	Returns updated PAR structure, as well as the "pass" Boolean
+%
+% 	Confirms:
+%		EXP is a structure
+%		experiment type
+%			- neutrons must list fixed energy
+%			- x-rays must have resolution and max_Q
+%		lattice consts
+%			- sample.a must be defined, others can default to that
+%		lattice angles
+%			- default to 90 degrees
+%		user basis
+%			- default to eye(3) 
 
-EXP=PAR.EXP;
-EXP.title='Parameters for a particular experimental configuration.';
 
-check=1;
+% normal input is PAR, but if EXP is received, use it
+if isfield(PAR,'EXP')
+	EXP=PAR.EXP;	% get EXP from PAR
+else
+	EXP=PAR;		% since EXP wasn't a field, the input must have been EXP
+end
+
+
+%pass=1;
 disp(' Checking the EXP structure ...');
-if ischar(EXP)
-	error(' The EXP class is "character". Did you put it in quotes?')
-	check=0;
 
-%% === proceed ===
-elseif isstruct(EXP)
+%% === proceed if this is a structure ===
+if isstruct(EXP)
+	EXP.title='Parameters for a particular experimental configuration.';
 
-	%% === validate experiment type
+	%% === validate experiment type ===
 	if ~isfield(EXP,'experiment_type')
 		EXP.experiment_type = 'tas';
 		disp(' Using default experiment type (tas)');
 	end
 
 	exp_type=EXP.experiment_type;
-	FLAG=0;
-	if ~ischar(exp_type)
-		FLAG=1;
-	elseif ~strcmp(exp_type,'tas') && ~strcmp(exp_type,'tof') && ~strcmp(exp_type,'xray')
-		FLAG=1;
-	end
+	isTas = strcmp(exp_type,'tas');
+	isTof = strcmp(exp_type,'tof');
+	isXray = strcmp(exp_type,'xray');
 
-	if FLAG
-		error('flagError:expType',[' That experiment type is not valid.\n' ... 
- 		 ' Make sure that the EXP file contains one of the following lines:\n' ... 
- 		 '	EXP.experiment_type=''tas'';\n' ... 
- 		 '	EXP.experiment_type=''tof'';\n' ... 
- 		 '	EXP.experiment_type=''xray'';'])
-		check=0;
+	if ~isTas && ~isTof && ~isXray
+%		error(" EXP.experiment_type must be either 'tas', 'tof', or 'xray'.");
+		pass=0;
 	end
 
 	disp(['     The experiment type is: ' EXP.experiment_type]);
@@ -43,33 +53,65 @@ elseif isstruct(EXP)
 
 	%% === check experiment-dependent fields ===
 	if strcmp(EXP.experiment_type,'xray')	% if this is x-ray experiment
-		check= check & isfield(EXP,'xray_res') & isfield(EXP,'instrument_Qmax')
-		if ~check; 
+
+		% confirm xray_res is a number > 0
+		if isfield(EXP,'xray_res')
+			if isnumeric(EXP.xray_res);
+				res = EXP.xray_res > 0;
+			end
+		end
+
+		% confirm instrument_Qmax is a number > 0
+		if isfield(EXP,'instrument_Qmax')
+			if isnumeric(EXP.instrument_Qmax);
+				Qmax = EXP.instrument_Qmax > 0;
+			end
+		end
+
+		% generate warning
+		pass = res & Qmax
+		if ~pass; 
 			warning('      ... failed x-ray check'); 
 		end
-
-	else	% otherwise assume this is neutron experiment
-		check = check & isfield(EXP,'efixed');
-		if ~check; 
-			warning('      ... failed neutron check; some energy must be fixed'); 
+		if ~res;
+			error(' EXP.xray_res must be a number greater than 0.');
+		end
+		if ~Qmax;
+			error(' EXP.instrument_Qmax must be a number greater than 0.');
 		end
 
+
+	else	% if this is neutron experiment
+
+		% confirm efixed is a number greater than 0
+		if isfield(EXP,'efixed');
+			if isnumeric(EXP.efixed);
+				eFixed = EXP.efixed > 0;
+			end
+		end
+
+		% check fixed energy
 		if ~isfield(EXP,'infin');
-			EXP.infin=1;	% if not specified, final energy is fixed
+			EXP.infin=1;	% default
+			infin = 1;
+		else
+			infin = sign(EXP.infin+eps); % in case the user puts something crazy
 		end
 
-		if abs(EXP.infin)~=1;
-			check = 0;
-			error('      ... ERROR in "initialize_EXP", EXP.infin must be +1 or -1');
+		if ~exist('eFixed'); 
+			error(' Failed neutron check; which energy is fixed?'); 
 		end
-	end
+
+		pass = infin & eFixed;
+
+	end % experiment_type
 
 
 
 	%% === check lattice constants ===
 	if ~isfield(EXP.sample,'a')
-		check=0;
-		error('      ... ERROR in "initialize_EXP" : at least one lattice parameter must be given.');
+		pass=0;
+		error('At least one lattice parameter must be given.');
 
 	else
 		if ~isfield(EXP.sample,'b')
@@ -99,16 +141,24 @@ elseif isstruct(EXP)
 		disp('     NOTE in "initialize_EXP" : no value given for sample.gamma; using 90');
 		EXP.sample.gamma=90;
 	end
-end
 
-%% === assign basis_user if not given ===
-if ~isfield(EXP,'basis_user')
-	EXP.basis_user=eye(3);
-end
+
+	%% === assign basis_user if not given ===
+	if ~isfield(EXP,'basis_user')
+		EXP.basis_user=eye(3);
+	end
+
+% not a structure, check if this is a character
+else 
+	pass=0;
+	if ischar(EXP)
+		error(' The EXP class is "character". Did you put it in quotes?')
+	end
+end % isstruct(EXP)
 
 
 %% === report final status ===
-if check
+if pass
 	disp('      ... the EXP structure seems to be OK')
 else
 	error('      ... there seems to be a problem with the EXP structure.');
