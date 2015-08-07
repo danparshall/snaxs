@@ -20,7 +20,6 @@ if system_octave & PLOT.quiet
 	kits = available_graphics_toolkits;
 	if sum(strcmp('gnuplot', kits))
 		graphics_toolkit gnuplot;
-%		graphics_toolkit fltk;
 	else
 		warning(' gnuplot not available');
 	end
@@ -28,11 +27,16 @@ end
 
 
 %% === generate figure, set visible status ===
-hold off;
-if PLOT.quiet
-	fh = figure('visible','off');
+
+if ~isempty(findobj('type','figure'))
+	clf;
+	fh = gcf;
 else
-	fh = figure('visible','on');
+	if PLOT.quiet
+		fh = figure('visible','off');
+	else
+		fh = figure('visible','on');
+	end
 end
 
 
@@ -49,7 +53,6 @@ if PLOT.markers
 	hold on;
 	if system_octave;
 		plot(centers, heights, '.', 'markers', 12, 'color', 'red');
-%		plot(centers, heights, '.', 'color', 'red');
 	else
 		plot(centers, heights, 'o', 'markers', 6, 'color', 'red', 'markerfacecolor', 'red');
 	end

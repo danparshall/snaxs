@@ -29,6 +29,7 @@ exp_folder = '0_EXP_files';
 	PLOT.scale_atom = 0.5;			% scale factor for atom radius
 	PLOT.scale_disp = 1.5;			% scale between polarization vector and displacement
 	PLOT.expansion = [5 5 2];		% supercell expansion
+	PLOT.quiet = 0;					% 0 displays graph; 1 saves to figure
 
 
 %	=== INFO ===
