@@ -31,7 +31,7 @@ XTAL.basis_real = basis_real;
 
 % === generates reciprocal basis from real basis for XTAL.basis_recip
 % 		reciprocal basis is transpose of 2pi * inv(basis)
-XTAL.basis_recip = 2*pi*inv(XTAL.basis_real);
+XTAL.basis_recip = 2*pi*inv(XTAL.basis_real)';
 
 
 % === finds total # of atoms for XTAL.N_atom

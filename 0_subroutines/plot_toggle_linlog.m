@@ -19,19 +19,19 @@ end
 figList = findobj('type','figure');
 
 if ~isempty(figList);
-	
+
 	% match based upon name of current figure
 	nameStr = get(gcf, 'name');
-	
+
 	if strcmp(nameStr, 'Sqw');
 		plot_SQW(PAR);
-		
+
 	elseif strcmp(nameStr, 'Q-scan');
 		plot_Qscan(PAR);
-		
+
 	elseif strcmp(nameStr, 'E-scan');
 		plot_Escan(PAR);
-		
+
 	else
 		warning(' Figure type not specified.');
 	end % matching on nameStr
