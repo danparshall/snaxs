@@ -30,7 +30,7 @@ end
 		if exist(subroutine_path,'dir')==7;
 			addpath(subroutine_path);
 		else
-			disp(' Path for subroutines given in "DEFAULTS.m" can not be found.  Likely to crash.');
+			disp(' Path for subroutines given in "DEFAULTS.m" can''t be found.  Likely to crash.');
 		end
 	else
 		% if not, see if "0_subroutines" is here

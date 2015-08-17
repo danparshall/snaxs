@@ -11,7 +11,7 @@ function check=initialize_paths
 %		simulate_Escan.m (a proxy for the general subroutines)
 %		ResMat.m (a proxy for the ResLib library)
 %		anapert binary file
-%		phonopy binary file
+%		phonopy script file
 %
 %	Also turns off some warning messages in Octave
 
@@ -64,6 +64,7 @@ else
 end
 
 
+%% ANAPERT %%
 %% === make sure anapert binary exists in correct location ===
 
 % take a guess as to what it should be called
@@ -77,6 +78,7 @@ if isunix
 elseif ispc
 	anapert_default_name='anapert.exe';
 end
+
 
 % check to see if the standard file is found.  Warn if more than one version.
 if system_octave
@@ -94,8 +96,10 @@ else
 		anapert_found_path=anapert_found_path{1};
 	end
 end
+
 % if the path in DEFAULTS agrees with the path found, there's no conflict
 anapert_given_path=DEFAULTS('anapert');
+
 if strcmp(anapert_given_path, anapert_found_path)
 	anafound=1;
 
@@ -113,14 +117,29 @@ elseif isempty(anapert_given_path)
 	anafound=1;
 	warning(['  Didn''t find anapert binary at DEFAULTS.m location.  Using alternate path found at : ' anapert_found_path]);
 
-% if there's a conflict, warn the user but go with DEFAULTS.m
+% If there's a possible conflict, check to be sure they're not actually the same
+% due to Relative vs. Absolute paths.  If they are, warn the user but go with DEFAULTS.m
 else
 	anafound=1;
-	warning(['  Multiple versions of the anapert binary have been found.  Using DEFAULTS.m location : ' DEFAULTS('anapert') ]);
+
+	% given path, which depends on system separation character
+	% this is a check in case DEFAULTS.m contains a Relative path
+	% comparison of absolute paths was done above
+	if ispc
+		given = [pwd '\' anapert_given_path];
+	else
+		given = [pwd '/' anapert_given_path];
+	end
+
+	if ~strcmp(anapert_found_path, given)
+		warning(['  Multiple versions of the anapert binary have been found.  Using DEFAULTS.m location : ' DEFAULTS('anapert') ]);
+	end
 end
 
 
-%% === make sure phonopy binary exists in correct location ===
+
+%% PHONOPY %%
+%% === make sure phonopy script exists in correct location ===
 
 % take a guess as to what it should be called
 if isunix
@@ -134,7 +153,7 @@ else
 	phonopy_found_path=which(phonopy_default_name,'-all');
 	if ~isempty(phonopy_found_path)
 		if length(phonopy_found_path)>1
-			warning('  Multiple versions of phonopy binary have been found.');
+			warning('  Multiple versions of phonopy script have been found.');
 			for ind=1:length(phonopy_found_path)
 				disp(phonopy_found_path{ind});
 			end
@@ -155,21 +174,35 @@ elseif isempty(phonopy_found_path)
 		phonofound=1;
 	else
 		phonofound=0;
-		warning('  SNAXS can''t find the phonopy binary.  Calls to phonopy will crash')
+		warning('  SNAXS can''t find the phonopy script.  Calls to phonopy will crash')
 	end
 
 % if version wasn't given in DEFAULTS.m, but snaxs found a version anyway, use that
 elseif isempty(phonopy_given_path)
 	phonofound=1;
-	warning(['  Didn''t find phonopy binary at DEFAULTS.m location.  Using alternate path found at : ' phonopy_found_path]);
+	warning(['  Didn''t find phonopy script at DEFAULTS.m location.  Using alternate path found at : ' phonopy_found_path]);
 
 % if there's a conflict, warn the user but go with DEFAULTS.m
 else
 	phonofound=1;
-	warning('  Multiple versions of the phonopy binary have been found.  Using DEFAULTS.m location.');
+
+	% given path, which depends on system separation character
+	% this is a check in case DEFAULTS.m contains a Relative path
+	% comparison of absolute paths was done above
+	if ispc
+		given = [pwd '\' anapert_given_path];
+	else
+		given = [pwd '/' anapert_given_path];
+	end
+
+	if ~strcmp(phonopy_found_path, given)
+		warning('  Multiple versions of the phonopy script have been found.  Using DEFAULTS.m location.');
+	end
 end
 
 
+
+%% FINAL %%
 %% === make sure at least one calculation program was found ===
 calcfound= anafound | phonofound;
 if ~calcfound;

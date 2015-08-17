@@ -3,8 +3,8 @@ function output=DEFAULTS(request);
 
 %	=== CALCULATOR PATH ===
 %	This is the path to the calculator binary (anapert or phonopy)
-%anapert='0_subroutines/anapert.exe';
-%phonopy='phonopy_files/phonopy.linux';
+anapert='0_subroutines/anapert.exe';
+phonopy='phonopy_files/phonopy.linux';
 
 
 % 	=== ResLib PATH ===
