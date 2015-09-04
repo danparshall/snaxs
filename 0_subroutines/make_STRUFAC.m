@@ -59,7 +59,7 @@ if size(vecs,2)~=Nq;
 	error(' Dimensions of "vecs" and "Q_hkl" are inconsistent.');
 end
 
-
+size(vecs)
 %%%%%%%%%%%
 %% common to all Q (fac is prefactor which normalizes sum to 100)
 scatt = [];

@@ -16,6 +16,13 @@ else
 	dim=[2 2 2];
 end
 
+%% check if FORCE_CONSTANTS file is in use, set flag if it is
+[status,results]=system('ls FORCE_CONSTANTS');
+if status==0	% 0 because bash
+	fcm=1;
+else
+	fcm=0;
+end
 
 % === phonon DOS ===
 if isstruct(VAR);
@@ -39,11 +46,16 @@ if isstruct(VAR);
 		%% === write input file.  See phonopy documentation 
 		fid=fopen('MP','wt');
 		fprintf(fid,['DIM = ' num2str(dim) '\n']);
+		if fcm;
+			fprintf(fid,'FORCE_CONSTANTS = READ\n');
+		end
 		fprintf(fid,['MP = ' num2str(nxyz) '\n']);
 		fprintf(fid,['GAMMA_CENTER = .TRUE.\n']);
 		fprintf(fid,['DOS_RANGE = ' num2str(eng) '\n']);
 		fprintf(fid,['PDOS = ' pdos '\n']);
 		fprintf(fid,['SIGMA = ' num2str(wids) '\n']);
+
+
 		fclose(fid);
 
 	else
@@ -68,6 +80,9 @@ elseif isnumeric(VAR)
 
 		QPOINTS = fopen('QPOINTS','wt');
 		fprintf(QPOINTS,['DIM = ' num2str(dim) '\n']);
+		if fcm;
+			fprintf(QPOINTS,'FORCE_CONSTANTS = READ\n');
+		end
 		fprintf(QPOINTS,'QPOINTS = ');
 		fprintf(QPOINTS,'%g ',sym_point);
 		fclose(QPOINTS);

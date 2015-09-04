@@ -5,6 +5,8 @@ function XTAL = read_POSCAR(XTAL)
 %
 %	This subroutine was written by Paul Neves.  Has seen only limited use, may
 %	have bugs in unusual situations.
+%
+%	NEEDTOFIX: parsing for element types is broken.  Currently requires ' Pb Ti O', breaks on 'Pb Ti O' (leading space)
 
 % open file in read-text mode (windows compatible)
 if exist(XTAL.data_path,'file');
@@ -35,10 +37,10 @@ XTAL.basis_recip = 2*pi*inv(XTAL.basis_real)';
 
 
 % === finds total # of atoms for XTAL.N_atom
-nextLine = fgetl(fid);
+nextLine = strtrim(fgetl(fid));
 if isfinite(find(size(str2num(nextLine)) == 0))% possible for this line to be either the atoms or their numbers
 	atoms = nextLine;
-	nextLine = fgetl(fid);
+	nextLine = strtrim(fgetl(fid));
 end
 atom_quantities = str2num(nextLine);
 XTAL.N_atom = sum(atom_quantities);

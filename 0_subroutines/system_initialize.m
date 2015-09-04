@@ -49,31 +49,42 @@ if strcmp(XTAL.calc_method,'phonopy')
 			system('rm -f FORCE_SETS');
 		end
 
-		% check to be sure that phonopy binary works
-		system_phonopy(XTAL,'test');
+		[status,result]=system('file FORCE_CONSTANTS');
+		if regexp(result, 'symbolic link')
+			system('rm -f FORCE_CONSTANTS');
+		end
 
-		% link to calculations
+
+		% link to calculations, verify in place
+		thisdir=pwd;
+		system(['ln -s ' XTAL.data_path ' ./POSCAR']);
+		if ~exist([thisdir '/POSCAR'],'file');
+			warning('	POSCAR not found in working directory.')
+		end
+
 		basedir=XTAL.data_path;
 		ind=find(basedir=='/');
 		basedir=basedir(1:ind(end));		% ind(end) is last '/'
 
-		force_path=[basedir 'FORCE_SETS'];
-		if ~exist(force_path,'file')
+		if exist([basedir 'FORCE_SETS'],'file')
+			system(['ln -s ' basedir 'FORCE_SETS ./FORCE_SETS']);
+			if ~exist([thisdir '/FORCE_SETS'],'file');
+				warning('	FORCE_SETS not found in working directory.')
+			end
+
+		elseif exist([basedir 'FORCE_CONSTANTS'],'file')
+			system(['ln -s ' basedir 'FORCE_CONSTANTS ./FORCE_CONSTANTS']);
+			if ~exist([thisdir '/FORCE_CONSTANTS'],'file');
+				warning('	FORCE_CONSTANTS not found in working directory.')
+			end
+		else
 			warning(' FORCE_SETS file was not found, has it been generated?');
 		end
 
-		% create new links to data
-		system(['ln -s ' XTAL.data_path ' ./POSCAR']);
-		system(['ln -s ' force_path ' ./FORCE_SETS']);
 
-		% confirm that POSCAR and FORCE_SETS are present
-		thisdir=pwd;
-		if ~exist([thisdir '/POSCAR'],'file');
-			warning('	POSCAR not found in working directory.')
-		end
-		if ~exist([thisdir '/FORCE_SETS'],'file');
-			warning('	FORCE_SETS not found in working directory.')
-		end
+		% check to be sure that phonopy binary works
+		system_phonopy(XTAL,'test');
+
 
 	%% === windows ===
 	elseif ispc

@@ -37,6 +37,7 @@ if calc_method=='phonopy'
 		return; 
 	end
 
+
 elseif calc_method=='anapert'
 	disp(' Initializing XTAL from ANALYSIS_DATA calculation file')
 	% === this provides the correspondance between Rolf's variable names and mine

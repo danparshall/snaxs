@@ -91,7 +91,7 @@ end
 
 %% === check output for errors ===
 if status	% system returns 0 if everything is fine, any other value is an error
-	warning(' There was a problem when calling phonopy : ')
+	warning(' Possible problem when calling phonopy : ')
 	disp(result);
 
 

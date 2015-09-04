@@ -774,7 +774,7 @@ ind=ind+1;
 
 	% Give warning and exit loop if atom not found
 	if ind>length(atom_list); 
-		error(' The given atom can not be found');
+		error([' The given atom (' atom_name ') can not be found']);
 		break;
 	end
 
