@@ -10,8 +10,8 @@ N_phonon = length(DATA.centers);
 intensity=zeros(N_phonon,length(DATA.eng));
 
 
-%DATA.linewidths= sqrt(DATA.ph_widths + res_widths);	% Gaussian; add widths in quadrature
-DATA.linewidths= DATA.ph_widths;						% or not...
+DATA.linewidths= sqrt(DATA.ph_widths + res_widths);	% Gaussian; add widths in quadrature
+%DATA.linewidths= DATA.ph_widths;						% or not...
 
 
 % === calculate profile for this set of phonons ===

@@ -12,29 +12,22 @@ intensity=zeros(N_phonon,length(DATA.eng));
 % x-ray resolution function is lorentzian, so add widths linearly
 DATA.linewidths= DATA.ph_widths + res_widths;
 
-for i=1:N_phonon;
 
-	% === calculate profile for this phonon ===
-	if DATA.linewidths(i) < INFO.e_step 	% Lorentzian if width too small
-		current = calc_lorentz(DATA.eng, DATA.centers(i), ...
-				DATA.heights(i), res_widths(i));
 
-											% Voigt if turned on & width finite
-	elseif (DATA.linewidths(i) > INFO.e_step) & (INFO.voigt == 1);
-		current = calc_voigt(DATA.eng, DATA.centers(i), ...
-				DATA.heights(i), DATA.linewidths(i), res_widths(i));
+% === calculate profile for this set of phonons ===
+if DATA.linewidths < INFO.e_step 	% Lorentzian if width too small
+	allphonons = calc_lorentz(DATA.eng, DATA.centers, DATA.heights, res_widths);
+
+										% Voigt if turned on & width finite
+elseif (DATA.linewidths > INFO.e_step) & (INFO.voigt == 1);
+	allphonons = calc_voigt(DATA.eng, DATA.centers, DATA.heights, DATA.linewidths, res_widths);
 disp(' using Voigt')
 
-	else									% else use pseudo-Voigt
-		current = calc_pvoigt(DATA.eng, DATA.centers(i), ...
-				DATA.heights(i), DATA.linewidths(i), res_widths(i), INFO.e_step);
-	end
-
-	% === put this phonon into intensity array ===
-	intensity(i,:)=current;
+else									% else use pseudo-Voigt
+	allphonons = calc_pvoigt(DATA.eng, DATA.centers, DATA.heights, DATA.linewidths, res_widths);
 end
 
-DATA.int=sum(intensity,1)';		% sum col and transp to produce row vector
+DATA.int = sum(allphonons,2);
 PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%
