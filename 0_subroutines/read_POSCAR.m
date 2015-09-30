@@ -71,39 +71,51 @@ if ~isempty(iPcnt);
 end
 
 % === convert atom string into cell ===
-iSpace=regexp(atoms,' ');
-N_spcs=length(iSpace);
-atom_types=cell(N_spcs,1);
+if 1
+	XTAL.atom_types=strsplit(strtrim(atoms));
 
-% if spaces were found, use them to parse
-if ~isempty(iSpace)
-	for ind=1:N_spcs
-		if iSpace(1)==1	% leading 
-			if ind==N_spcs
-				atom_types{ind}=strtrim(atoms([iSpace(ind):end]));
-			else
-				atom_types{ind}=strtrim(atoms([iSpace(ind):iSpace(ind+1)]));
-			end
-		elseif iSpace(end)==length(atoms)
-			if ind==1
-				atom_types{ind}=strtrim(atoms([1:iSpace(ind)]));
-			else
-				atom_types{ind}=strtrim(atoms([iSpace(ind-1):iSpace(ind)]));
+else	% old method
+	iSpace=regexp(atoms,' ');
+	N_spcs=length(iSpace);
+	atom_types=cell(N_spcs,1);
+
+	% if spaces were found, use them to parse
+	if ~isempty(iSpace)
+		for ind=1:N_spcs
+			if iSpace(1)==1	% leading 
+				if ind==N_spcs
+					atom_types{ind}=strtrim(atoms([iSpace(ind):end]));
+				else
+					atom_types{ind}=strtrim(atoms([iSpace(ind):iSpace(ind+1)]));
+				end
+			elseif iSpace(end)==length(atoms)
+				if ind==1
+					atom_types{ind}=strtrim(atoms([1:iSpace(ind)]));
+				else
+					atom_types{ind}=strtrim(atoms([iSpace(ind-1):iSpace(ind)]));
+				end
 			end
 		end
+		XTAL.atom_types = atom_types;
+	% if not, assume there is only one atom type
+	else
+		XTAL.atom_types{1}=atoms;
 	end
-	XTAL.atom_types = atom_types;
-% if not, assume there is only one atom type
-else
-	XTAL.atom_types{1}=atoms;
+	XTAL.atom_types=XTAL.atom_types(:)';	% row vector
 end
-XTAL.atom_types=XTAL.atom_types(:)';	% row vector
 
 % === finds location of atoms for XTAL.atom_position
 fgetl(fid);% the next line is always "Direct," so we don't care
 atom_position = [];
 for ind = 1:XTAL.N_atom
-	atom_position = [atom_position; str2num(fgetl(fid))];
+	atom = sscanf(fgetl(fid), '%f %f %f %*s');
+	atom_position = [atom_position; atom(:)'];
+end
+
+% check that atom_position is well-formed
+[nRow,nCol]=size(atom_position);
+if (nRow~=XTAL.N_atom) | (nCol~=3)
+	warning('atom_position is not correct shape')
 end
 XTAL.atom_position = atom_position;
 

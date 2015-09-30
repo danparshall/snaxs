@@ -31,6 +31,11 @@ elseif atom_number == 29
 	color = [0.9 0.3 0.3];	% reddish
 	radius = 1.28;
 
+% lead
+elseif atom_number == 82	
+	color = [0.9 0.3 0.3];	% reddish
+	radius = 1.28;
+
 % mercury
 elseif atom_number == 80
 	color = [0.3 0.3 0.3];	% dark grey

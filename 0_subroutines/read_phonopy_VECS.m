@@ -16,9 +16,9 @@ function VECS = read_phonopy_VECS(PAR,Q_list)
 %
 %	This subroutine was written by Paul Neves.  Has seen only limited use, may
 %	have bugs in unusual situations.
+%	TODO : read electron-phonon coupling as well (currently assigned to 0)
 
-%disp(' NOTE in "read_phonopy" : confirm that VECS structured the same for anapert/phonopy')
-
+%% can probably pull energy/vecs assignment out of the FOR loop near line 74
 
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
 N_atom=XTAL.N_atom;
@@ -34,12 +34,13 @@ if strcmp(XTAL.calc_method,'phonopy');
 end
 
 %% === initialize VECS, arrays ===
+% vecs is organized (3dir*N_atom, Nq, Nmodes)
 if ~isfield(VECS,'title')
 	VECS.title='VECS';
 end
 VECS.Q_points=zeros(Nq,3);
 VECS.energies=zeros(Nph,Nq);
-VECS.vecs=zeros(Nph,Nq,3*N_atom);
+VECS.vecs=zeros(3*N_atom,Nq,Nph);
 
 mode_data=zeros(3*N_atom,2,Nph);
 energy_data=zeros(Nph,1);
@@ -64,15 +65,14 @@ for point = 1:Nq
 		end
 	end
 end
-THz2meV = 4.13567;			%phonopy uses THz for energy, we want meV
-energies = frequency*THz2meV;
 
+% update VECS
+THz2meV = 4.13567;			%phonopy uses THz for energy, we want meV
+VECS.energies=frequency*THz2meV;
+VECS.vecs=eigenvectors;
 
 for ind_Q=1:Nq;
 	VECS.Q_points(ind_Q,:) = calc_prm_to_cnv(XTAL,Q_list(ind_Q,:),EXP);% add to VECS.qs array
-
-	VECS.energies(:,ind_Q)=energies(:,ind_Q);		% adds energy data for q-point
-	VECS.vecs(:,ind_Q,:)=eigenvectors(:,ind_Q,:);	% adds eigenvector data for q-point
 end
 
 %% === someday this will read the linewidths as well ===
