@@ -22,13 +22,18 @@ if INFO.bose;
 
 	% one_ovr_omega only allowed if gamma-points have already been handled
 	if INFO.one_ovr_omega
-		bose= bose./energy;
+
+		for iEng = 1:length(energy)
+			if energy(iEng)~=0
+				bose(iEng) = bose(iEng)./energy(iEng);
+			end
+		end
 	end
 
 else
 	bose = ones(size(energy));
 end
-
+bose
 % === Ki/Kf ===
 % skip for x-ray (where the factor is 1) or tas (included in ResLib)
 if strcmp(EXP.experiment_type,'xray') || strcmp(EXP.experiment_type,'tas')
@@ -47,8 +52,7 @@ else
 	KfKi=ones(size(energy));
 end
 
-
 % XTAL.N_atom normalizes so that, e.g., orth/tet calcs yield same intensity
-height = STRUFAC_data(:,2) .* Q2 .* bose .* KfKi ./ XTAL.N_atom;
+height = STRUFAC_data(:,2) .* Q2 .* bose .* KfKi ./ XTAL.N_atom
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%
