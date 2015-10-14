@@ -24,6 +24,14 @@ else
 	fcm=0;
 end
 
+%% check if BORN file is in use, flag if so
+[stat, res] = system('ls BORN');
+if stat==0	% because bash
+	born=1;
+else
+	born=0;
+end
+
 % === phonon DOS ===
 if isstruct(VAR);
 	if isfield(VAR,'nxyz') & isfield(VAR,'eng') & isfield(VAR,'wids');
@@ -48,6 +56,9 @@ if isstruct(VAR);
 		fprintf(fid,['DIM = ' num2str(dim) '\n']);
 		if fcm;
 			fprintf(fid,'FORCE_CONSTANTS = READ\n');
+		end
+		if born
+			fprintf(fid,'NAC = .TRUE.\n');
 		end
 		fprintf(fid,['MP = ' num2str(nxyz) '\n']);
 		fprintf(fid,['GAMMA_CENTER = .TRUE.\n']);
@@ -82,6 +93,9 @@ elseif isnumeric(VAR)
 		fprintf(QPOINTS,['DIM = ' num2str(dim) '\n']);
 		if fcm;
 			fprintf(QPOINTS,'FORCE_CONSTANTS = READ\n');
+		end
+		if born
+			fprintf(QPOINTS,'NAC = .TRUE.\n');
 		end
 		fprintf(QPOINTS,'QPOINTS = ');
 		fprintf(QPOINTS,'%g ',sym_point);

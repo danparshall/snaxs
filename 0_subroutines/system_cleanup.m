@@ -25,10 +25,10 @@ if calc=='anapert';
 elseif calc=='phonopy'
 
 	if isunix
-		system('rm -f QPOINTS qpoints.yaml MP mesh.yaml partial_dos.dat BORN');
+		system('rm -f QPOINTS qpoints.yaml MP mesh.yaml partial_dos.dat');
 
 	elseif ispc
-		system('del QPOINTS qpoints.yaml MP mesh.yaml partial_dos.dat BORN');
+		system('del QPOINTS qpoints.yaml MP mesh.yaml partial_dos.dat');
 
 	else
 		error(' Operating system unknown');

@@ -43,13 +43,12 @@ if isunix
 	if call=='test'
 		% call calcprog()
 		[status,result]=system([phonopy ' -q']);
-
-		if status==0
-			% disp(' Phonopy seems to be working');
-		elseif status==126
+		if status==126
 			warning(' Phonopy can''t run, possibly due to permissions error.');
 		elseif status==127
 			warning(' Phonopy path may be bad');
+		else
+			status = 0;		% I may regret this
 		end
 
 	% density-of-states, using MP
@@ -91,7 +90,7 @@ end
 
 %% === check output for errors ===
 if status	% system returns 0 if everything is fine, any other value is an error
-	warning(' Possible problem when calling phonopy : ')
+	warning(' There was a problem when calling phonopy : ')
 	disp(result);
 
 

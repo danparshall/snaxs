@@ -54,6 +54,11 @@ if strcmp(XTAL.calc_method,'phonopy')
 			system('rm -f FORCE_CONSTANTS');
 		end
 
+		[status,result]=system('file BORN');
+		if regexp(result, 'symbolic link')
+			system('rm -f BORN');
+		end
+
 
 		% link to calculations, verify in place
 		thisdir=pwd;
@@ -65,6 +70,13 @@ if strcmp(XTAL.calc_method,'phonopy')
 		basedir=XTAL.data_path;
 		ind=find(basedir=='/');
 		basedir=basedir(1:ind(end));		% ind(end) is last '/'
+
+		if exist([basedir 'BORN'])
+			system(['ln -s ' basedir 'BORN ./BORN']);
+			if ~exist([thisdir '/BORN'],'file');
+				warning('	BORN not found in working directory.')
+			end
+		end
 
 		if exist([basedir 'FORCE_SETS'],'file')
 			system(['ln -s ' basedir 'FORCE_SETS ./FORCE_SETS']);
