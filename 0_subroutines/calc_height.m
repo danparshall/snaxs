@@ -33,7 +33,7 @@ if INFO.bose;
 else
 	bose = ones(size(energy));
 end
-bose
+
 % === Ki/Kf ===
 % skip for x-ray (where the factor is 1) or tas (included in ResLib)
 if strcmp(EXP.experiment_type,'xray') || strcmp(EXP.experiment_type,'tas')
@@ -53,6 +53,6 @@ else
 end
 
 % XTAL.N_atom normalizes so that, e.g., orth/tet calcs yield same intensity
-height = STRUFAC_data(:,2) .* Q2 .* bose .* KfKi ./ XTAL.N_atom
+height = STRUFAC_data(:,2) .* Q2 .* bose .* KfKi ./ XTAL.N_atom;
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%
