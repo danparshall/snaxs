@@ -87,7 +87,11 @@ elseif strcmp(type, 'gdos')
 
 	hLeg=legend(labels);
 	set(hLeg, 'fontsize', 24)
+	set(hLeg, 'linewidth', 3)
 
+%% === error ===
+else
+	warning(' Plot type unknown');
 end % match on type
 
 

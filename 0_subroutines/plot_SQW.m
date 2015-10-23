@@ -17,51 +17,42 @@ if ~isreal(DATA.SQE_array)
 end
 
 
-if system_octave
-	disp(' OCTAVE COLORMAP')
-
-	% === plot in linear or log scale ===
-	if PLOT.semilog
-		logdat=log(DATA.SQE_array);
-		mval=max(max(logdat));
-		mins=mval-PLOT.decades;
-		logdat(logdat < mins) = mins;
-		fh=imagesc(Q_array, E_array, logdat, [mval-PLOT.decades mval] );
-	else % plot linear
-		fh=imagesc(Q_array, E_array, DATA.SQE_array);
-	end
-	axis on
-	axis tight normal		% seems to be default in Matlab, useful in Octave
-	fa=gca;
-
+%% === generate figure, set visible status ===
+if ~isempty(findobj('type','figure'))
+	clf;
+	fh = gcf;
 else
-	disp(' MATLAB COLORMAP')
-
-	% === Matlab allows setting alpha values (can make NaNs transparent)
-	% === the NaNs are made transparent in imagesc2   ===
-	% see http://stackoverflow.com/questions/8481324/contrasting-color-for-nans-in-imagesc
-
-	% === plot in linear or log scale ===
-	if PLOT.semilog
-		logdat=log(DATA.SQE_array);
-		if ~isreal(logdat)
-			warning(' logdat array not real; error in calculation; taking real part of data.');
-			logdat = real(logdat);
-		end
-		mval=max(max(logdat));
-		mins = mval - PLOT.decades;
-		logdat(logdat < mins) = mins;
-		fh=imagesc2(Q_array, E_array, logdat, [mval-PLOT.decades mval] );
-	else % plot linear
-		fh=imagesc2(Q_array, E_array, DATA.SQE_array);
+	if PLOT.quiet
+		fh = figure('visible','off');
+	else
+		fh = figure('visible','on');
 	end
-	axis on
-	axis tight normal		% seems to be default in Matlab, useful in Octave
-	fa=gca;
-
-	% === set background color to white, for the NaNs ===
-	set(fa,'color',[1 1 1]);
 end
+
+
+% === plot in linear or log scale ===
+if PLOT.semilog
+	logdat=log(DATA.SQE_array);
+	mval=max(max(logdat));
+	mins=mval-PLOT.decades;
+	logdat(logdat < mins) = mins;
+	fh = imagesc(Q_array, E_array, logdat, [mval-PLOT.decades mval] );
+else % plot linear
+	fh = imagesc(Q_array, E_array, DATA.SQE_array);
+end
+axis on
+axis tight normal		% seems to be default in Matlab, useful in Octave
+fa=gca;
+
+% === plot NaNs in white on Matlab systems ===
+if ~system_octave
+	set(fa,'color',[1 1 1]);
+	set(fh, 'AlphaData', ~isnan(DATA.SQE_array));
+	if isunix
+		disp('  NOTE : alpha setting screws up saving as .png on *nix.');
+	end
+end
+
 
 %% === prettify ===
 set(fa,'YDir','normal');

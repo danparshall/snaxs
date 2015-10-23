@@ -39,12 +39,17 @@ disp(' Input minimum and maximum of energy range:')
 	if minmax=='x'; run=0; return; end
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
 
-% check emax
-if (EXP.efixed < minmax(2)) & EXP.infin == 1
-	disp([' Maximum allowed energy transfer is Ei= ' num2str(EXP.efixed) ])
-	emax=EXP.efixed;
-else
-	emax=minmax(2);
+% check emax for neutron experiments
+if strcmp(EXP.experiment_type, 'xray')
+	emax = minmax(2);
+
+else	% for neutrons
+	if (EXP.efixed < minmax(2)) & EXP.infin == 1
+		disp([' Maximum allowed energy transfer is Ei= ' num2str(EXP.efixed) ])
+		emax=EXP.efixed;
+	else
+		emax=minmax(2);
+	end
 end
 
 % check emin
@@ -72,6 +77,7 @@ if strcmp(EXP.experiment_type,'tof')
 	PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 	wids=res_widths_tof(PAR);
 
+
 elseif strcmp(EXP.experiment_type,'tas')
 
 	% min Q goes like sqrt(E), add kf to get mean of Qmin/Qmax
@@ -85,6 +91,13 @@ elseif strcmp(EXP.experiment_type,'tas')
 
 	wids(1)=sqrt(2*log(2)./RMS(3,3,1));
 	wids(2)=sqrt(2*log(2)./RMS(3,3,2));
+
+
+elseif strcmp(EXP.experiment_type, 'xray')
+
+	% x-ray resolution independent of energy transfer
+	wids(1) = EXP.xray_res;
+	wids(2) = EXP.xray_res;
 end
 
 

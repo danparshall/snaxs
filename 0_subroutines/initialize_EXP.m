@@ -69,7 +69,7 @@ if isstruct(EXP)
 		end
 
 		% generate warning
-		pass = res & Qmax
+		pass = res & Qmax;
 		if ~pass; 
 			warning('      ... failed x-ray check'); 
 		end
