@@ -85,9 +85,10 @@ elseif strcmp(type, 'gdos')
 	hYLabel = ylabel('Phonon DOS (states/meV)');
 	hXLabel = xlabel(' Energy (meV)');
 
-	hLeg=legend(labels);
+	[hLeg, hObj, hOut ] =legend(labels);
 	set(hLeg, 'fontsize', 24)
-	set(hLeg, 'linewidth', 3)
+	set(hObj, 'linewidth', 2)
+	set(hOut, 'linewidth', 2)
 
 %% === error ===
 else

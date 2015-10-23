@@ -19,12 +19,26 @@ atom_number=get_atom_number(atom_kind);
 % stops on first successful match, so put exceptions first
 % RGB scheme; G+B = cyan, G+R = yel, B+R = mag;
 
-
 % oxygen
 if atom_number == 8;
 %	color = [0.2 0.7 0.7];		% cyan
 	color = [0.1 0.1 0.7];		% dark blue
 	radius = 0.7;
+
+% hydrogen
+elseif atom_number == 1
+	color = [0.1 0.1 0.1]; 
+	radius = 0.53;
+
+% carbon
+elseif atom_number == 6
+	color = [0.2 0.7 0.2];	% green
+	radius = 0.91;
+
+% nitrogen
+elseif atom_number == 7
+	color = [0.9 0.1 0.1];	% red
+	radius = 0.92;
 
 % copper
 elseif atom_number == 29	
@@ -34,6 +48,7 @@ elseif atom_number == 29
 % lead
 elseif atom_number == 82	
 	color = [0.9 0.3 0.3];	% reddish
+	color = [0.1 0.1 0.7];		% dark blue
 	radius = 1.28;
 
 % mercury

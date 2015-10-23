@@ -18,20 +18,23 @@ disp(' === Simulating phonon density-of-states ===');
 %% === set default min/max energy ===
 emin=0;
 
-if EXP.infin == 1	% fixed Ei
-	if EXP.efixed > INFO.e_max ;
-		emax=INFO.e_max;
-	else
-		emax=EXP.efixed;
-	end
-
-elseif EXP.infin == -1  % fixed Ef
-	emax=INFO.e_max;
-
+if strcmp(EXP.experiment_type, 'xray')
+	emax = INFO.e_max;
 else
-	error(' Which energy is fixed?');
-end
+	if EXP.infin == 1	% fixed Ei
+		if EXP.efixed > INFO.e_max ;
+			emax=INFO.e_max;
+		else
+			emax=EXP.efixed;
+		end
 
+	elseif EXP.infin == -1  % fixed Ef
+		emax=INFO.e_max;
+
+	else
+		error(' Which energy is fixed?');
+	end
+end
 
 %% === get min/max energy from user; sanitize ===
 disp(' Input minimum and maximum of energy range:')
