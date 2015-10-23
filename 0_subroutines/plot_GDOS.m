@@ -12,7 +12,6 @@ gdos=PAR.DOS.gdos;
 % ===  plot, set title, prettify ===
 hold off;
 fh=plot(energy,gdos);
-%fh=plot(energy,gdos, 'linewidth', 3);
 fa=gca;
 plot_pretty(PAR,fh,fa,'gdos');
 
