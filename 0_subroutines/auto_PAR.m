@@ -41,10 +41,10 @@ end
 
 
 PAR.EXP=EXPfile;
-PAR=initialize_EXP(PAR);
+[PAR,pass]=initialize_EXP(PAR);
 
 % if EXP isn't good, abort
-if ~PAR.EXP.check
+if ~pass
 	return;
 end
 

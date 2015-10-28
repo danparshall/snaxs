@@ -64,7 +64,14 @@ end
 scatt = [];
 mass = [];
 for ind_at=1:N_atom
-	scatt = [scatt; str2num(get_xsect_neutron(atom_kind{ind_at}))];
+
+	% cross-section is different for neutrons / xrays
+	if strcmp(EXP.experiment_type,'xray')
+		scatt = [scatt; str2num(get_xsect_xray(atom_kind{ind_at}))];
+	else
+		scatt = [scatt; str2num(get_xsect_neutron(atom_kind{ind_at}))];
+	end
+
 	mass = [mass; get_mass(atom_kind{ind_at})];
 end
 fac=100/sum(scatt.^2./mass);
