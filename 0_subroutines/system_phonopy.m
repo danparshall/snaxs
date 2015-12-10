@@ -87,17 +87,24 @@ else
 end
 
 
-
 %% === check output for errors ===
 if status	% system returns 0 if everything is fine, any other value is an error
-	warning(' There was a problem when calling phonopy : ')
+	warning(' There was a problem when calling phonopy : ');
+	warning(' Try running phonopy from the command line to check warning messages');
 	disp(result);
 
+	indError=regexp(result,'IndexError');
+	if ~isempty(indError)
+		error('	Found an IndexError; possible sign that supercell DIM not set properly in EXP.dim');
+	end
 
+	% search 'results' string for a warning about liblapack
 	lapack=regexp(result,'liblapack.so.3');
 	if ~isempty(lapack)
 		error('	It seems phonopy could not find liblapack.so.3');
 	end
+
+
 end
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

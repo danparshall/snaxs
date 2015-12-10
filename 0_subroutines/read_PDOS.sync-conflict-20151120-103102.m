@@ -36,7 +36,7 @@ if strcmp(XTAL.calc_method,'phonopy')
 
 	for ind=1:XTAL.N_type
 		indAtom=find(XTAL.atom_kind==ind);	   % find all atoms of this type
-		gdos(:,ind+1)=sum(pdos(:,indAtom),2);  % sum contributions from this atom
+		gdos(:,ind+1)=sum(pdos(:,indAtom),2);  % sum conributions from this atom
 		end
 	pdos=gdos;		% now that atoms are summed
 

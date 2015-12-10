@@ -1,5 +1,5 @@
 function PAR=simulate_DOS(PAR,DOS);
-% PAR=simulate_DOS(PAR,DOS);
+% PAR=simulate_DOS(PAR,eng,wids);
 %	simulate generalized phonon density-of-states
 
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
