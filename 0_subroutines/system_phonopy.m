@@ -30,7 +30,7 @@ if ~exist(phonopy,'file')
 end
 
 
-%% === LINUX ===
+%% ==== LINUX ====
 if isunix
 	% confirm exectuable permissions on phonopy binary ===
 	[bin,perms]=system(['stat -c %A ' phonopy]);
@@ -51,6 +51,7 @@ if isunix
 			status = 0;		% I may regret this
 		end
 
+
 	% density-of-states, using MP
 	elseif call=='pdos'
 	
@@ -58,7 +59,12 @@ if isunix
 		system('rm -f mesh.yaml');
 
 		% call calcprog()
-		[status,result]=system([phonopy ' -q MP']);
+		if isfield(PAR.EXP, 'phonopycode')
+			warning('  Phonopy being called with YOUR code in EXP.phonopycode');
+			[status,result]=system(PAR.EXP.phonopycode);
+		else
+			[status,result]=system([phonopy ' -q MP']);
+		end
 
 
 	% eigenvectors, using QPOINTS
@@ -68,7 +74,12 @@ if isunix
 		system('rm -f qpoints.yaml');
 
 		% call calcprog()
-		[status,result]=system([phonopy ' -q --eigenvectors QPOINTS']);
+		if isfield(PAR.EXP, 'phonopycode')
+			warning('  Phonopy being called with YOUR code in EXP.phonopycode');
+			[status,result]=system(PAR.EXP.phonopycode);
+		else
+			[status,result]=system([phonopy ' -q --eigenvectors QPOINTS']);
+		end
 
 
 	% call unknown
@@ -78,7 +89,7 @@ if isunix
 
 
 
-%% === WINDOWS ===
+%% ==== WINDOWS ====
 elseif ispc
 	error(' Phonopy is not supported under Windows.  You can learn more at http://phonopy.sourceforge.net');
 
