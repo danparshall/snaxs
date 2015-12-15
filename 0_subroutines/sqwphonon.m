@@ -17,7 +17,6 @@ HWHM=PAR.VECS.phWidths;
 
 if isfield(PAR,'rescale_energy')
 	rescale_energy=PAR.rescale_energy;	% multiply phonon energies by this factor
-	PAR.VECS.strufac_data(:,1) = PAR.VECS.strufac_data(:,1)*rescale_energy;
 	VECS.energies = VECS.energies * rescale_energy;
 end
 
