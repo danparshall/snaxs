@@ -19,7 +19,7 @@ tau=round(Qprm);	% Nq x 3
 q=Qprm-tau;			% Nq x3
 tol=10;				% setting tolerance of q
 q=round(q.*(10^tol))/(10^tol);
-[unique_q,inda,ind_q]=unique(q,'rows');	% ind_q allows regeneration from unique
+[unique_q,inda,ind_q]=unique(q,'rows');				% ind_q allows regeneration from unique
 
 
 %% === call to calculation program, read data ===
@@ -27,9 +27,8 @@ q=round(q.*(10^tol))/(10^tol);
 if strcmp(calc, 'phonopy')
 	system_cleanup('phonopy');
 	write_phonopy(PAR, unique_q);
-	system_phonopy(XTAL,'eigs');
+	system_phonopy(PAR,'eigs');
 	VECS=read_phonopy_VECS(PAR, unique_q);
-
 
 %     ANAPERT
 elseif strcmp(calc,'anapert')
@@ -52,7 +51,7 @@ PAR.VECS=VECS;
 
 
 %% === now calculate structure factor for VECS ===
-VECS=make_STRUFAC(PAR,Q_hkl);
+VECS=make_STRUFAC(PAR,Q_hkl);						% time spent here is trivial : 10 ms for 200 Q-points
 PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

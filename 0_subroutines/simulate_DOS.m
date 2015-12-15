@@ -16,7 +16,7 @@ disp(' Calculating phonon density-of-states...');
 %% === phonopy ===
 if strcmp(XTAL.calc_method,'phonopy');
 	write_phonopy(PAR,DOS);
-	system_phonopy(XTAL, 'pdos');
+	system_phonopy(PAR, 'pdos');
 	disp('   ... done!');
 
 

@@ -4,7 +4,6 @@ function PAR=simulate_SQW(PAR);
 %	to the user (as in, e.g., "user_SQW_menu"), or just a line scan can be 
 %	shown (as in "user_Qscan_menu").
 
-tic
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
 
 if isfield(XTAL,'calc_method')
@@ -24,9 +23,8 @@ PAR=simulate_multiQ(PAR, Q_hkl);
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
 
 
-toc 
 % === now calculate intensities based on VECS.strufac ===
-if 0
+if 1
 
 	for k=1:size(VECS.Q_points,1)
 

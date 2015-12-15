@@ -1,5 +1,5 @@
-function [status,result]=system_phonopy(XTAL, call);
-% [status,result]=system_phonopy(XTAL, call);
+function [status,result]=system_phonopy(PAR, call);
+% [status,result]=system_phonopy(PAR, call);
 %	Call phonopy depending on system OS, and what is being called
 %	The 'call' input is a 4-character string specifying the calling routine.
 %

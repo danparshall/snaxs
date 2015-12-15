@@ -38,7 +38,7 @@ while run 				% runs until Q-input received is 'x'
 		%% call phonopy, read data
 		system_cleanup('phonopy');
 		write_phonopy(PAR, q);
-		system_phonopy(XTAL,'eigs');
+		system_phonopy(PAR,'eigs');
 		PAR.VECS=read_phonopy_VECS(PAR, q);
 
 	elseif calc=='anapert'
