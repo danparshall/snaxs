@@ -42,9 +42,9 @@ end
 
 %% === plot profile ===
 if PLOT.semilog
-    semilogy(eng, int, 'linewidth', 3);
+    semilogy(eng, int, 'b-', 'linewidth', 3);
 else % plot linear
-    plot(eng, int, 'linewidth', 3);
+    plot(eng, int, 'b-', 'linewidth', 3);
 end
 
 

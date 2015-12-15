@@ -5,9 +5,6 @@ function PAR=simulate_single(PAR);
 %	from file (the original method used with anapert) but means that everything 
 %	(Escan, Qscan, SQW) uses the same calculation.
 
-
-[XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
-
 	PAR=simulate_multiQ(PAR, PAR.INFO.Q);
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%
