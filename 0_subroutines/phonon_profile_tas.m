@@ -7,7 +7,6 @@ function PAR=phonon_profile_tas(PAR,res_widths);
 
 % make matrix with dimensions (N_phonon, energy_bins)
 N_phonon = length(DATA.centers);
-intensity=zeros(N_phonon,length(DATA.eng));
 
 
 DATA.linewidths= sqrt(DATA.ph_widths + res_widths);	% Gaussian; add widths in quadrature

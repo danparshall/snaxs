@@ -27,8 +27,6 @@ EXP.instrument='ARCS';			% Used to determine Energy resolution (and someday, Q-r
 % Space group P6/mmm, #191.  No HKL conditions.
 EXP.calculation_path='ANALYSIS_DATA.mgb2_q666';
 
-EXP.dim=[3 3 2];
-EXP.calculation_path='phonopy_files/example/MgB2/POSCAR';
 
 % === if desired, user can select between multiple calculations and/or basis ===
 coordinates='hex';	% use 'orth' or 'hex'

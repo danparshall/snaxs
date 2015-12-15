@@ -10,6 +10,13 @@ function PAR=phonon_scandata_xray(PAR)
 e_upper = INFO.e_max;
 e_lower = INFO.e_min;
 
+[Q_mag, Q_prm]=calc_Q_ang_cnv(XTAL, INFO.Q, EXP);
+if Q_mag > EXP.instrument_Qmax
+	warning off backtrace
+	warning(' Q not accessible on this instrument');
+	warning on backtrace
+end
+
 
 %% === apply restrictions to phonons ===
 good_cens=find((VECS.energies > e_lower) & (VECS.energies < e_upper));

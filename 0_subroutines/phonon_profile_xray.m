@@ -7,7 +7,6 @@ function PAR=phonon_profile_xray(PAR,res_widths);
 
 % make matrix with dimensions (N_phonon, energy_bins)
 N_phonon = length(DATA.centers);
-intensity=zeros(N_phonon,length(DATA.eng));
 
 
 % x-ray resolution function is lorentzian, so add widths linearly
