@@ -122,7 +122,7 @@ while run 				% runs until input received is 'x'
 
 
 	% === update DATA ===
-	PAR=simulate_Escan(PAR, PAR.VECS.strufac_data);
+	PAR=simulate_Escan(PAR);
 	PAR.DATA.int=convolution;
 	PAR.DATA.convolution=convolution;
 

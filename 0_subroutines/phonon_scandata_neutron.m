@@ -1,16 +1,9 @@
-function PAR=phonon_scandata_neutron(PAR, STRUFAC_data);
-% PAR=phonon_scandata_neutron(PAR, STRUFAC_data);
+function PAR=phonon_scandata_neutron(PAR);
+% PAR=phonon_scandata_neutron(PAR);
 %	Return DATA structure based on PAR
 %	Restricts phonons to just those allowed (whether by kinematics or user)
 
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
-
-% === set phonon widths ===
-if isfield(STRUFAC_data,'ph_widths')
-	ph_widths = STRUFAC_data.something;	% this will crash, but is obvious fix
-else
-	ph_widths = zeros(size(STRUFAC_data,1),1);
-end
 
 
 %% === set range to narrower of kinematic or user constraint ===
@@ -37,21 +30,27 @@ e_lower=e_lower-(step/10);
 
 
 %% === apply restrictions to phonons ===
-centers = STRUFAC_data(:,1);
-DATA.allcenters=centers;
-good_cens=find((centers > e_lower) & (centers < e_upper));
-DATA.centers=centers(good_cens);
 
-allstrufac=NaN*STRUFAC_data;
-allstrufac(good_cens,:)=STRUFAC_data(good_cens,:);
-structure_factors=STRUFAC_data(good_cens,:);
+good_cens=find((VECS.energies > e_lower) & (VECS.energies < e_upper));
+DATA.heights = calc_height(PAR, good_cens);
 
-DATA.allheights = calc_height(allstrufac, PAR);
-allhts=DATA.allheights;
-DATA.heights=DATA.allheights(good_cens);
-DATA.ph_widths=ph_widths(good_cens);
+DATA.allheights = NaN * VECS.strufac;
+DATA.allheights(good_cens) = DATA.heights;
+
+DATA.allcenters = VECS.energies;
+DATA.centers = VECS.energies(good_cens);
 
 DATA=make_mask(DATA,e_upper,e_lower);
+
+
+% === set phonon widths ===
+if isfield(VECS,'phWidths')
+	DATA.ph_widths = VECS.phWidths(good_cens);
+else
+	warning(' Setting intrinsic linewidth to zero.');
+	DATA.ph_widths = zeros(size(DATA.centers));
+end
+
 PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

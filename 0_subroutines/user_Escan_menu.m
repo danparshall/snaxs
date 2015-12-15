@@ -42,7 +42,7 @@ while run 				% runs until Q-input received is 'x'
 	PAR=simulate_single(PAR);
 
 	% === generate scan ===
-	PAR=simulate_Escan(PAR, PAR.VECS.strufac_data);
+	PAR=simulate_Escan(PAR);
 
 
 	% === plot data ===
