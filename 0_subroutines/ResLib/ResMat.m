@@ -201,8 +201,9 @@ for ind=1:len
 
 
     thetas=s2theta/2;
-    phi=atan2(-kf*sin(s2theta), ki-kf*cos(s2theta)); %Angle from ki to Q
-    
+%   phi=atan2(-kf*sin(s2theta), ki-kf*cos(s2theta)); %Angle from ki to Q
+%   The following correction was suggested by Sibel Bayracki
+    phi=atan2(sign(em)*(-kf*sin(s2theta)), sign(em)*(ki-kf*cos(s2theta)));
     
     
 
@@ -227,7 +228,8 @@ for ind=1:len
     rot(1,2)=sin(psi);
     rot(2,1)=-sin(psi);
     rot(3,3)=1;
-    sshape=rot'*sshape*rot;    
+%    sshape=rot'*sshape*rot;
+    sshape=rot*sshape*rot';
     %---------------------------------------------------------------------------------------------
     %Definition of matrix G    
     G=1./([alpha(1),alpha(2),beta(1),beta(2),alpha(3),alpha(4),beta(3),beta(4)]).^2;

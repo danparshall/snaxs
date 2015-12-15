@@ -32,13 +32,13 @@ EXP.ana.mosaic=25;          %Minutes of arc
 %EXP.ana.vmosaic=25;        %...For anisotropic mosaic: vertical mosaic, minutes of arc
 
 %-------------------------   Sample -------------------------------------------------------
-EXP.sample.a=3.96;      %A: angstroms
-EXP.sample.b=3.96;      %B: angstroms
-EXP.sample.c=12.9;      %C: angstroms
+EXP.sample.a=6;      %A: angstroms
+EXP.sample.b=7;      %B: angstroms
+EXP.sample.c=8;      %C: angstroms
 EXP.sample.alpha=90;    %Alpha: degrees of arc
 EXP.sample.beta=90;     %Beta: degrees of arc
 EXP.sample.gamma=90;    %Gamma: degrees of arc
-EXP.sample.mosaic=30;  %Optional sample mosaic: minutes of arc
+%EXP.sample.mosaic=30;  %Optional sample mosaic: minutes of arc
 %EXP.sample.vmosaic=60; %...For anisotropic mosaic: vertical mosaic, minutes of arc
 
 %-------------------------   Soller and neutron guide collimation    ----------------------
@@ -61,8 +61,8 @@ EXP.efixed=14.7;    %Fixed neutron energy in meV
 %EXP.dir2=-1;       %  ...negative if scattering directions are the same.
 %EXP.mondir=1;      %  Monochromator scattering angle is positive by default
 
-EXP.orient1=[1 1 0]; %First orienting vector in scattering plane
-EXP.orient2=[2 0 0]; %Second orienting vector in scattering plane
+EXP.orient1=[1 0 0]; %First orienting vector in scattering plane
+EXP.orient2=[0 1 0]; %Second orienting vector in scattering plane
 
 %-------------------------   Analyzer reflectivity parameters ----------------------------
 % Do not assign these fields if no reflectivity corrections are to be made

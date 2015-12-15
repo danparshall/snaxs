@@ -84,7 +84,6 @@ if ~isempty(SMA)
    end;
 end;
 
-
 %plot projections
 [proj3,sec]=project(RMS,3);
 [proj2,sec]=project(RMS,2);
@@ -145,4 +144,3 @@ sec(1,1,:)=mat(i,i,:);
 sec(1,2,:)=mat(i,j,:);
 sec(2,1,:)=mat(j,i,:);
 sec(2,2,:)=mat(j,j,:);
-
