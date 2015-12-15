@@ -5,7 +5,7 @@ function display_strufac_data(PAR);
 %	of interest is the first one.
 
 if ~isfield(PAR.VECS,'strufac');
-	disp('  Can''t display structure factors, no STRUFAC data has been calculated')
+	disp('  Can''t display structure factors, haven''t been calculated')
 
 else
 	[XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
@@ -16,10 +16,10 @@ else
 	disp(['  In primitive coordinates, this is : ' this_q]);
 	disp(['  Which translates to user basis of : ' this_cnv]);
 
-	Nmodes=size(VECS.strufac_data,1);
+	Nmodes=size(VECS.energies,1);
 
 	disp(' ');
-	disp('  Mode Energy Str.Factor');
+	disp('  Mode Energy Str.Factor  Height');
 	for ind=1:Nmodes;
 		if i<10;
 			string_ind= [' ' sprintf('%2.0f',ind) ')'];
@@ -43,7 +43,16 @@ else
 			string_strufac = [ sprintf('%3.2f', strufac)];
 		end
 
-		disp([' ' string_ind '  ' string_eng '   ' string_strufac]);
+		height = DATA.allheights(ind,q_ind);
+		if height == 0;
+			string_ht = '      0';
+		elseif height < 10;
+			string_ht = ['   ' sprintf('%3.2f',height)];
+		elseif height < 100;
+			string_ht = ['  ' sprintf('%3.2f',height)];
+		end
+
+		disp([' ' string_ind '  ' string_eng '   ' string_strufac '  ' string_ht]);
 	end
 end
 

@@ -1,17 +1,19 @@
 function VECS=make_STRUFAC(PAR,Q_hkl,vecs);
 % VECS=make_STRUFAC(PAR,Q_hkl,vecs, varargin);
-%	Generate STRUFAC (structure factor) structure.
-%	Q_hkl is Nq x 3
-%	'vecs' input is optional override, otherwise calculates STRUFAC from VECS
-% 	STRUFAC.qs is 2D matrix (Nq x 3), has h,k,l for each of the Nq rows
-%	STRUFAC.strufac is 2D matrix (N_modes x Nq)
+%	Generate structure factor, place in VECS
+%	
+%	INPUT:
+%		Q_hkl : (Nq x 3)
+%		vecs : optional override, otherwise calculates strufac from VECS
 %
-%	For backwards compatibility, there is also STRUFAC.data, but it will be deprecated
-% 	STRUFAC.data is 3D matrix (N_modes x 2 x Nq) with Nq pages, each page has 
-%	energy and intensity for each of the N_modes rows
+%	OUTPUT
+%		VECS.strufac : (N_modes x Nq)
+%		VECS.qs		 : (Nq x 3), has h,k,l for each of the Nq rows
 %
 % 	This normalizes strufac to 100 (like anapert).
 
+%% =============================================================================
+%
 % Cross-section for one-phonon coherent scattering can be found in:
 %	Squires, Introduction to the theory of thermal neutron scattering, Eqn 3.120
 %
@@ -36,6 +38,7 @@ function VECS=make_STRUFAC(PAR,Q_hkl,vecs);
 %
 % /* you are not expected to understand this */
 %
+%% =============================================================================
 
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
 N_atom=XTAL.N_atom;
@@ -78,18 +81,18 @@ fac=100/sum(scatt.^2./mass);
 
 
 %%%%%%%%%%
-% here we calculate exp(-i tau R_k)
+%% produce tau matrix, R matrix, calculate first two terms of equation
 Qprm=calc_cnv_to_prm(XTAL, Q_hkl, EXP);
 tau=round(Qprm);					% Nq x 3
 taumat=reshape(tau,[1 Nq 3]);
 taumat=repmat(taumat,[N_atom 1 1]);	% N_atom x Nq x 3
 
-atoms=XTAL.atom_position;
-atoms=reshape(atoms, [N_atom 1 3]);
-atoms=repmat(atoms,[1 Nq 1]);
+R_k=XTAL.atom_position;
+R_k=reshape(R_k, [N_atom 1 3]);
+R_k=repmat(R_k,[1 Nq 1]);
 
-% good place to include scatt/mass term 
-cfac=exp(-2*i*pi*dot(taumat,atoms,3)) .*repmat(scatt./sqrt(mass),[1 Nq]); % N_at x N_q
+% Calculate exp(-i tau R_k), also a good place to include scatt/mass term 
+cfac=exp(-2*i*pi*dot(taumat,R_k,3)) .*repmat(scatt./sqrt(mass),[1 Nq]); % N_at x N_q
 cfac=repmat(cfac,[1 1 N_modes]); % cfac same for all modes. (N_at x Nq x N_modes)
 
 
@@ -125,11 +128,5 @@ strufac= cs .* conj(cs) .* repmat(1./Qc2',N_modes,1) *fac;
 VECS.strufac=strufac;
 VECS.qs=Qprm;
 
-
-% this is for backwards compatibility.  Should update all routines to use
-% STRUFAC.strufac and VECS.energies
-dataE=reshape(VECS.energies, [N_modes 1 Nq] );
-dataI=reshape(strufac, [N_modes 1 Nq] );
-VECS.strufac_data=[dataE dataI];
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

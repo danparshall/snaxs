@@ -9,9 +9,9 @@ function PAR=phonon_profile_xray(PAR,res_widths);
 N_phonon = length(DATA.centers);
 intensity=zeros(N_phonon,length(DATA.eng));
 
+
 % x-ray resolution function is lorentzian, so add widths linearly
 DATA.linewidths= DATA.ph_widths + res_widths;
-
 
 
 % === calculate profile for this set of phonons ===

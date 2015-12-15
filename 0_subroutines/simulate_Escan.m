@@ -1,5 +1,5 @@
-function PAR=simulate_Escan(PAR,strufac_data);
-% PAR=simulate_Escan(PAR, strufac_data);
+function PAR=simulate_Escan(PAR);
+% PAR=simulate_Escan(PAR);
 % 	Simulate escan at single Q-point
 %	strufac_data is (N_modes x 2) (energies/intensities)
 %
@@ -13,13 +13,13 @@ PAR.DATA=make_DATA(PAR);
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
 
 % === Switch for tas, tof, xray ===
-switch EXP.experiment_type
+switch PAR.EXP.experiment_type
 	case {'xray'} % ===============
 		if PAR.INFO.warn_exp_type==1
 			disp(' This seems to be an x-ray experiment')
 			PAR.INFO.warn_exp_type=0;
 		end
-		PAR=phonon_scandata_xray(PAR,strufac_data);
+		PAR=phonon_scandata_xray(PAR);
 		res_widths=res_widths_xray(PAR);
 		PAR=phonon_profile_xray(PAR,res_widths);
 
@@ -30,7 +30,7 @@ switch EXP.experiment_type
 			PAR.INFO.warn_exp_type=0;
 		end
 
-		PAR=phonon_scandata_neutron(PAR,strufac_data);
+		PAR=phonon_scandata_neutron(PAR);
 		res_widths=res_widths_tof(PAR);
 		PAR=phonon_profile_tas(PAR,res_widths);
 
@@ -40,7 +40,7 @@ switch EXP.experiment_type
 			disp(' This seems to be a triple-axis experiment');
 			PAR.INFO.warn_exp_type=0;
 		end
-		PAR=phonon_scandata_neutron(PAR,strufac_data);
+		PAR=phonon_scandata_neutron(PAR);
 
 		if length(PAR.DATA.centers) > 0;
 			[res_widths,PAR]=res_widths_tas(PAR);

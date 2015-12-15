@@ -33,7 +33,7 @@ PAR.DATA.Q_hkl=Q_hkl;
 PAR.DATA.E_array=e_array;
 PAR.DATA.Q_delta=Q_delta;
 
-%% === generate VECS, and in turn STRUFAC ===
+%% === generate VECS ===
 PAR=simulate_multiQ(PAR, Q_hkl);
 
 %% === plot ===

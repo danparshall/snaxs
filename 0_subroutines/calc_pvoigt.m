@@ -5,6 +5,10 @@ function [pvoigt_y]=calc_pvoigt(x_array, center, height, L_width, G_width)
 %	components.  More information in:
 % 		Vogh, "Alternative form for the pseudo-Voigt peak shape", 
 %		Rev Sci Inst 76, 056107 (2005)
+%
+% 	x_array is vector
+%	center & HWHM can be scalar or vector, but must have the same length
+%	output has size ( length(x_array) x length(center) )
 
 V_width=(G_width.^5 ...
 		+ 2.69296*G_width.^4 .* L_width ...

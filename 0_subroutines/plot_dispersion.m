@@ -13,14 +13,9 @@ Q_array= DATA.Q_hkl(:,maxidx);
 E_array= DATA.E_array;
 
 
-%% === reshape data ===
-dispersion=VECS.strufac_data(:,1,:);
-dispersion=reshape(dispersion,3*XTAL.N_atom,[], 1);
-
-
 %% === plot & prettify ===
 hold off;
-fh=plot(Q_array,dispersion','k-');	% make all lines black
+fh=plot(Q_array, VECS.energies', 'k-');	% make all lines black
 fa=gca;
 axis([min(Q_array) max(Q_array) min(E_array) max(E_array)]);
 plot_pretty(PAR,fh,fa,'disp');

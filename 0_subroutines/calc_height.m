@@ -1,24 +1,30 @@
-function height=calc_height(STRUFAC_data, PAR);
-% height=calc_height(STRUFAC_data, PAR);
+function height=calc_height(PAR, good_cens);
+% height=calc_height(PAR, good_cens);
 %	Calculates height of phonons based on switches
-%	STRUFAC_data is (N_modes x 2) array (eng, strufac)
-%	should update this to use VECS.energies and STRUFAC.strufac
 %	calc_height_multiQ may work, but will have to see where this gets passed in from
+% 	This *should* work 
+
+if ~exist('good_cens');
+	good_cens= [1:numel(PAR.VECS.energies)];
+end
 
 [XTAL,EXP,INFO]=params_fetch(PAR);
-energy=STRUFAC_data(:,1);
+energy=PAR.VECS.energies(good_cens);
+strufac=PAR.VECS.strufac(good_cens);
 
 % === Q^2 ===
 if INFO.Q_squared;
-	Q=calc_Q_ang_cnv(XTAL, INFO.Q, EXP);
-	Q2=Q^2;
+%	[row, Qind] = ind2sub(size(PAR.VECS.energies), good_cens);
+	Q=calc_Q_ang_cnv(XTAL, PAR.INFO.Q, EXP);
+	Q2=Q.^2;
 else
 	Q2 = 1;
 end
 
+
 % === bose factor ===
 if INFO.bose;
-	bose = calc_bose(STRUFAC_data(:,1), INFO.degrees, INFO.bragg_handling);
+	bose = calc_bose(energy, INFO.degrees, INFO.bragg_handling);
 
 	% one_ovr_omega only allowed if gamma-points have already been handled
 	if INFO.one_ovr_omega
@@ -33,6 +39,7 @@ if INFO.bose;
 else
 	bose = ones(size(energy));
 end
+
 
 % === Ki/Kf ===
 % skip for x-ray (where the factor is 1) or tas (included in ResLib)
@@ -52,7 +59,7 @@ else
 	KfKi=ones(size(energy));
 end
 
-% XTAL.N_atom normalizes so that, e.g., orth/tet calcs yield same intensity
-height = STRUFAC_data(:,2) .* Q2 .* bose .* KfKi ./ XTAL.N_atom;
+% XTAL.N_atom normalizes so supercell calcs give same intensity (e.g., ortho/tet)
+height = strufac .* Q2 .* bose .* KfKi ./ XTAL.N_atom;
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

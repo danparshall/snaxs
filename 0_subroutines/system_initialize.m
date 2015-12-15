@@ -95,7 +95,7 @@ if strcmp(XTAL.calc_method,'phonopy')
 
 
 		% check to be sure that phonopy binary works
-		system_phonopy(XTAL,'test');
+		system_phonopy(PAR,'test');
 
 
 	%% === windows ===
