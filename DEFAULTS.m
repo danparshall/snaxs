@@ -4,7 +4,7 @@ function output=DEFAULTS(request);
 %	=== CALCULATOR PATH ===
 %	This is the path to the calculator binary (anapert or phonopy)
 %anapert='0_subroutines/anapert.exe';
-phonopy='phonopy_files/phonopy.linux';
+phonopy='~/0_SNAXS/phonopy_files/phonopy.linux';
 
 
 % 	=== ResLib PATH ===
@@ -28,7 +28,7 @@ exp_folder = '0_EXP_files';
 	PLOT.y_limit=[0 5];
 	PLOT.scale_atom = 0.5;			% scale factor for atom radius
 	PLOT.scale_disp = 1.5;			% scale between polarization vector and displacement
-	PLOT.expansion = [2 2 2];		% supercell expansion
+	PLOT.expansion = [4 4 4 ];		% supercell expansion
 	PLOT.quiet = 0;					% 0 displays graph; 1 saves to figure
 
 
@@ -49,9 +49,9 @@ exp_folder = '0_EXP_files';
 
 	% === for energy-scan at fixed Q (all scans) ===
 	INFO.Q = [ 0 3.85 0];	% Q-point
-	INFO.e_max=100;			% also used for S(q,w) and dispersion plots
-	INFO.e_step=0.1;
-	INFO.e_min=-1; %INFO.e_step;
+	INFO.e_max= 100;			% also used for S(q,w) and dispersion plots
+	INFO.e_step= 0.1;
+	INFO.e_min=INFO.e_step;
 
 	% === for S(q,w) & q-scan at fixed energy ===
 	INFO.Q_min = [0 0 0];		% starting Q for S(q,w), dispersion, Q-scans
