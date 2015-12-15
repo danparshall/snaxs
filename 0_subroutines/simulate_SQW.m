@@ -62,47 +62,64 @@ else
 	% Use mask and make things NaN if masked.  Then pass only allowed (good) cen
 	% good_cens = intersect(find(tst), find(~isnan(tst)))
 	% 
+	warning(' Running the TEST VERSION of simulate_SQW : toggle line29 for stable version');
 
 
-	DATA = make_DATA(PAR);
+	% update : the indexing seems to be accurate, and is around 30% faster than 
+	% the stable version above (call time to phonopy is unchanged, obviously).
+	% Need to set this up for xray and tas.  Should probably move "make_STRUFAC"
+	% from simulate_multiQ and have it called separately when needed (that will
+	% speed up calls to display dispersion, etc.  
 
-	ht = calc_height_multiQ(PAR, Q_hkl);
-	DATA.allheights = ht;
+	% Xray will require Lorentzian an option, and skipping check_kinematics
+	% TAS will require calling ResLib
+
 
 	nHt = 3*XTAL.N_atom;
 	nQ = INFO.Q_npts;
+	DATA = make_DATA(PAR);
 
+	%% calculate heights for all phonons, at all Q 
+	% (even kinematically inaccessible, but that shouldn't make much diffence)
+	ht = calc_height_multiQ(PAR, Q_hkl);
+	DATA.allheights = ht;
+
+
+	%% make kinematic mask
+	[EtMax, EtMin] = check_kinematics(PAR, Q_hkl);
+	tMax = repmat(EtMax(:)', nHt, 1);
+	tMin = repmat(EtMin(:)', nHt, 1);
+	cen = VECS.energies;
+	kMask = (cen < tMax) & (cen > tMin) & (cen < INFO.e_max) & (cen > INFO.e_min);
+
+
+	%% get resolution width based upon energy (and evenutally, HKL)
+	goodCens = logical( (ht>0) .* ~isnan(ht) .* kMask );	% marks good phonons at each Q
+	DATA.centers = VECS.energies(goodCens);
+	DATA.heights = DATA.allheights(goodCens);
+	PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
+	res_width=res_widths_tof(PAR);
 	H = repmat(Q_hkl(:,1), 1, nHt);
 	K = repmat(Q_hkl(:,2), 1, nHt);
 	L = repmat(Q_hkl(:,3), 1, nHt);
 
 
-	[EtMax, EtMin] = check_kinematics(PAR, Q_hkl);
-	tMax = repmat(EtMax(:)', nHt, 1);
-	tMin = repmat(EtMin(:)', nHt, 1);
-	cen = VECS.energies;
-	kMask = (cen < tMax) & (cen > tMin) & (cen < INFO.e_max) & (cen > INFO.e_min); % kinematic mask
-
-	goodCens = logical( (ht>0) .* ~isnan(ht) .* kMask );
-
-	DATA.centers = VECS.energies(goodCens);
-	DATA.heights = DATA.allheights(goodCens);
-
-	PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
-	res_width=res_widths_tof(PAR);
-
+	%% calculate intensity profile for every individual phonon
 	eng = DATA.eng;
 	width = zeros(size(DATA.centers));
-	pVoigt = calc_pvoigt( eng, DATA.centers, DATA.heights, 0, res_width);
+	pVoigt = calc_pvoigt( eng, DATA.centers, DATA.heights, 0, res_width); % length(eng) x length(find(goodCens))
 
+
+	%% sum intensity profiles for different phonons at the same HKL/Q
 	iCens = find(goodCens);
+	for iq = 1:nQ
 
-	for iq =1:nQ
+		% figure out indices for good phonons at this particular Q
+		tmp = find(goodCens(:, iq));										% goodCens at this Q
+		thisCens = sub2ind( size(goodCens), tmp, iq*ones(size(tmp)) );		% linear indices
+		[dummy, ind] = intersect( iCens, thisCens );						% ind is correct columns *of pVoigt*
 
-		tmp = find(goodCens(:, iq));
-		thisCens = sub2ind( size(goodCens), tmp, iq*ones(size(tmp)) );
-		[dummy, ind] = intersect( iCens, thisCens );
-
+		% sum their profiles
 		profile = sum(pVoigt(:,ind), 2);
 		SQE_array(:,iq) = profile;
 	end
