@@ -24,7 +24,7 @@ PAR=simulate_multiQ(PAR, Q_hkl);
 
 
 % === now calculate intensities based on VECS.strufac ===
-if 0
+if 1		%% === stable version ===
 
 	for k=1:size(VECS.Q_points,1)
 
@@ -39,7 +39,9 @@ if 0
 		end
 	end
 
-else
+else		%% === experimental version! ===
+
+	warning(' Running the TEST VERSION of simulate_SQW : toggle line29 for stable version');
 
 	% I should put something here, but it will mean tearing apart some of the
 	% subroutines within "simulate_Escan".  Going to punt till a later date.
@@ -60,17 +62,28 @@ else
 	% Use mask and make things NaN if masked.  Then pass only allowed (good) cen
 	% good_cens = intersect(find(tst), find(~isnan(tst)))
 	% 
-	warning(' Running the TEST VERSION of simulate_SQW : toggle line29 for stable version');
 
 
-	% update : the indexing seems to be accurate, and is around 30% faster than 
-	% the stable version above (call time to phonopy is unchanged, obviously).
-	% Need to set this up for xray and tas.  Should probably move "make_STRUFAC"
-	% from simulate_multiQ and have it called separately when needed (that will
-	% speed up calls to display dispersion, etc.  
+	% update 2015/12/16: I have implemented the scheme described above in this
+	% section.  The indexing seems to be accurate, and is around 30% faster than 
+	% the stable version (call time to phonopy is unchanged, obviously).
 
+	% Considered moving "make_STRUFAC" from "simulate_multiQ" and have it called 
+	% only when needed (thinking it would speed calls to plot_dispersion, etc),
+	% but the total time for 200 unique q-points of MgB2 was only 10ms... 
+
+	% TODO:
 	% Xray will require Lorentzian an option, and skipping check_kinematics
 	% TAS will require calling ResLib
+
+	% need to change simulate_Escan to follow this method (minus fancy indexing)
+	% need to adjust sqwphonon.m to be sure the updated versions are compatible
+
+	% Once these are implemented, can get rid of:
+	%	phonon_scandata_xray
+	%	phonon_scandata_neutron
+	%	phonon_profile_xray
+	%	phonon_profile_neutron
 
 
 	nHt = 3*XTAL.N_atom;
@@ -83,7 +96,7 @@ else
 	DATA.allheights = ht;
 
 
-	%% make kinematic mask
+	%% === make kinematic mask ===
 	cen = VECS.energies;
 
 	if 1
@@ -100,7 +113,8 @@ else
 		if Q_mag > EXP.instrument_Qmax; end
 	end
 
-	%% get resolution width based upon energy (and evenutally, HKL)
+
+	%% === get resolution width based upon energy (and evenutally, HKL) ===
 	goodCens = logical( (ht>0) .* ~isnan(ht) .* kMask );	% marks good phonons at each Q
 	DATA.centers = VECS.energies(goodCens);
 	DATA.heights = DATA.allheights(goodCens);
@@ -111,13 +125,13 @@ else
 	L = repmat(Q_hkl(:,3), 1, nHt);
 
 
-	%% calculate intensity profile for every individual phonon
+	%% === calculate intensity profile for every individual phonon ===
 	eng = DATA.eng;
 	width = zeros(size(DATA.centers));
 	pVoigt = calc_pvoigt( eng, DATA.centers, DATA.heights, 0, res_width); % length(eng) x length(find(goodCens))
 
 
-	%% sum intensity profiles for different phonons at the same HKL/Q
+	%% === sum intensity profiles for different phonons at the same HKL/Q ===
 	iCens = find(goodCens);
 	for iq = 1:nQ
 
