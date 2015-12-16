@@ -24,7 +24,7 @@ PAR=simulate_multiQ(PAR, Q_hkl);
 
 
 % === now calculate intensities based on VECS.strufac ===
-if 1
+if 0
 
 	for k=1:size(VECS.Q_points,1)
 
@@ -84,12 +84,21 @@ else
 
 
 	%% make kinematic mask
-	[EtMax, EtMin] = check_kinematics(PAR, Q_hkl);
-	tMax = repmat(EtMax(:)', nHt, 1);
-	tMin = repmat(EtMin(:)', nHt, 1);
 	cen = VECS.energies;
-	kMask = (cen < tMax) & (cen > tMin) & (cen < INFO.e_max) & (cen > INFO.e_min);
 
+	if 1
+		% NEUTRONS - works for TOF, but need to use ResLib for TAS
+		[EtMax, EtMin] = check_kinematics(PAR, Q_hkl);
+		tMax = repmat(EtMax(:)', nHt, 1);
+		tMin = repmat(EtMin(:)', nHt, 1);
+		kMask = (cen < tMax) & (cen > tMin) & (cen < INFO.e_max) & (cen > INFO.e_min);
+	else
+		% XRAYS - need work!
+		kMask = (cen < INFO.e_max) & (cen > INFO.e_min);
+		kMask Q-mag
+		[Q_mag, Q_prm]=calc_Q_ang_cnv(XTAL, INFO.Q, EXP);
+		if Q_mag > EXP.instrument_Qmax; end
+	end
 
 	%% get resolution width based upon energy (and evenutally, HKL)
 	goodCens = logical( (ht>0) .* ~isnan(ht) .* kMask );	% marks good phonons at each Q
