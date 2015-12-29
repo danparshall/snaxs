@@ -33,7 +33,7 @@ bose(eLoss) = 1 + 1./ ( exp( meV_to_K * energy(eLoss)./degrees) -1);
 eGain = find(energy < 0);
 if numel(eGain>0);
 	% take absolute value so that peak doesn't become negative
-	bose(eGain) = 1./ ( exp(meV_to_K*abs(energy(eGain)./degrees) -1));
+	bose(eGain) = 1./ ( exp(meV_to_K*abs(energy(eGain)./degrees)) -1);
 end
 
 
