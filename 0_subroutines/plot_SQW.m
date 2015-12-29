@@ -8,7 +8,7 @@ hold off;
 
 [maxval,maxidx]=max(abs(DATA.Q_delta));
 Q_array= DATA.Q_hkl(:,maxidx);
-E_array= DATA.E_array;
+eng = DATA.eng;
 
 
 if ~isreal(DATA.SQE_array)
@@ -36,9 +36,9 @@ if PLOT.semilog
 	mval=max(max(logdat));
 	mins=mval-PLOT.decades;
 	logdat(logdat < mins) = mins;
-	fh = imagesc(Q_array, E_array, logdat, [mval-PLOT.decades mval] );
+	fh = imagesc(Q_array, eng, logdat, [mval-PLOT.decades mval] );
 else % plot linear
-	fh = imagesc(Q_array, E_array, DATA.SQE_array);
+	fh = imagesc(Q_array, eng, DATA.SQE_array);
 end
 axis on
 axis tight normal		% seems to be default in Matlab, useful in Octave
