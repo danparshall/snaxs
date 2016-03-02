@@ -62,9 +62,11 @@ disp(['   INFO.timescale : ' num2str(INFO.timescale) ]);
 disp(['   Accuracy : ' num2str(INFO.accuracy) ]);
 disp(['   This convolution will take ~' num2str(round(estime)) ' minutes to complete']);
 
-
-
-if estime > 10
+if estime > 600
+	disp('     You look tired, go home and get some rest!');
+elseif estime > 120
+	disp('     That''s plenty of time for dinner.');
+elseif estime > 10
 	disp('     You probably have time for coffee.');
 end
 
