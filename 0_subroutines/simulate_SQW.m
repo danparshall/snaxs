@@ -19,7 +19,7 @@ if ~exist('Q_hkl')
 	DATA.Q_delta=Q_delta;
 else
 	INFO.Q_npts = size(Q_hkl,1);
-	[unique_tau, cellarray_qs, Q_hkl, Q_delta]=generate_tau_q_from_Q(PAR);
+	[unique_tau, cellarray_qs, Q_hkl, Q_delta]=generate_tau_q_from_Q(PAR,Q_hkl);
 end	
 eng = DATA.eng;
 SQE_array=zeros( length(eng), INFO.Q_npts);
