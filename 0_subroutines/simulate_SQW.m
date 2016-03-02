@@ -20,6 +20,7 @@ if ~exist('Q_hkl')
 else
 	INFO.Q_npts = size(Q_hkl,1);
 	[unique_tau, cellarray_qs, Q_hkl, Q_delta]=generate_tau_q_from_Q(PAR,Q_hkl);
+	DATA.Q_delta=Q_delta;
 end	
 eng = DATA.eng;
 SQE_array=zeros( length(eng), INFO.Q_npts);
@@ -47,8 +48,9 @@ if 1		%% === stable version ===
 		end
 	end
 
-DATA = make_DATA(PAR);
-	DATA.Q_delta=Q_delta;
+	% these two lines are probably redundant/a bug
+%	DATA = make_DATA(PAR);
+%	DATA.Q_delta=Q_delta;
 else		%% === experimental version! ===
 
 	warning(' Running the TEST VERSION of simulate_SQW : toggle line29 for stable version');
