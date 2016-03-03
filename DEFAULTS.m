@@ -25,10 +25,9 @@ exp_folder = '0_EXP_files';
 	PLOT.markers=1;					% shows a '*' for the peak energy and height
 	PLOT.semilog=0;					% plots intensity on logarithmic scale
 	PLOT.decades=10;				% max number of decades visible in semilog Escan or SQE_array
-	PLOT.y_limit=[0 5];
 	PLOT.scale_atom = 0.5;			% scale factor for atom radius
 	PLOT.scale_disp = 1.5;			% scale between polarization vector and displacement
-	PLOT.expansion = [4 4 4 ];		% supercell expansion
+	PLOT.expansion = [4 4 4 ];		% supercell expansion for drawing crystal
 	PLOT.quiet = 0;					% 0 displays graph; 1 saves to figure
 
 
@@ -36,8 +35,6 @@ exp_folder = '0_EXP_files';
 %	anapert() and phonopy give S(q,w) as function of Q.  All scans are built by 
 %	generating an E-scan at a single Q. Those scans are then assembled for more 
 %	complex data such as Q-scans and S(q,w)
-
-	INFO.scantype=1;		% 1 for HKL units, 2 for Q_mag
 
 	% === determining height (all scans) ===
 	INFO.bose = 1;			% include bose factor
