@@ -43,7 +43,12 @@ else
 			string_strufac = [ sprintf('%3.2f', strufac)];
 		end
 
-		height = DATA.allheights(ind,q_ind);
+		% use height data if available
+		if isfield(DATA,'allheights')
+			height = DATA.allheights(ind,q_ind);
+		else
+			height = NaN;
+		end
 		if height == 0;
 			string_ht = '      0';
 		elseif height < 10;
@@ -51,7 +56,7 @@ else
 		elseif height < 100;
 			string_ht = ['  ' sprintf('%3.2f',height)];
 		else
-			string_ht = '  --.--';
+			string_ht = '   --.--';
 		end
 
 		disp([' ' string_ind '  ' string_eng '   ' string_strufac '  ' string_ht]);

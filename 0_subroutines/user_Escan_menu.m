@@ -1,7 +1,8 @@
 function PAR= user_Escan_menu(PAR);
 % PAR= user_Escan_menu(PAR);
-%	Prompt user for data needed to simulate E-scan at a single Q-point
-%	then call to anapert()/phonopy and display results
+%	Prompt user for data needed to simulate E-scan at a single Q-point, then 
+%	call to anapert()/phonopy and display results.
+%	Easter egg: type "i" to see structure factor data
 
 run=1;
 while run 				% runs until Q-input received is 'x'

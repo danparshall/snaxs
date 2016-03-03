@@ -13,11 +13,15 @@ else
 	calc=[];
 end
 
+% strip 'allheights' so height data isn't displayed / doesn't have to be calculated
+if isfield(PAR.DATA,'allheights')
+	PAR.DATA = rmfield(PAR.DATA, 'allheights');
+end
+
 
 run=1;
 while run 				% runs until Q-input received is 'x'
 	[XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
-
 	disp(' ')
 	disp(' === Simulating eigenvectors at fixed Q ===')
 
