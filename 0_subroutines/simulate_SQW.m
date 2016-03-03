@@ -27,6 +27,7 @@ SQE_array=zeros( length(eng), INFO.Q_npts);
 
 
 % === generate VECS (including structure factor) ===
+PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 PAR=simulate_multiQ(PAR, Q_hkl);
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
 
@@ -179,6 +180,7 @@ end
 % === update ===
 DATA.SQE_array=SQE_array;
 DATA.Q_hkl=Q_hkl;
+DATA.Q_delta=Q_delta;
 PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 toc;
 
