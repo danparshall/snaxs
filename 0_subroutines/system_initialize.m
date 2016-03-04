@@ -36,12 +36,14 @@ if strcmp(XTAL.calc_method,'phonopy')
 
 	%% === linux ===
 	if isunix
-		% delete old (but only if a soft link)
+
 		[status,result]=system('file POSCAR');
-		if regexp(result, 'symbolic link')
-			system('rm -f POSCAR');
-		else
-			warning(' POSCAR is not a softlink.  Best practice is to point to POSCAR using EXP.calculation_path');
+		if ~status 						% delete old (but only if a soft link)
+			if regexp(result, 'symbolic link')
+				system('rm -f POSCAR');
+			else
+				warning(' POSCAR is not a softlink.  Best practice is to point to POSCAR using EXP.calculation_path');
+			end
 		end
 
 		[status,result]=system('file FORCE_SETS');
