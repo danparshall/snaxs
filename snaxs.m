@@ -93,6 +93,27 @@ PAR.VECS.title='Eigenvectors and structure factors.';
 system_initialize(PAR);
 
 
+%% === HACK TO PREVENT WINDOWCRASH ===
+if ~isempty(findobj('type','figure'))
+% The problem is that plot_SQW (and others) use DATA.Q_delta.  But DATA gets
+%	renewed when starting SNAXS.  So if a user leaves a figure open, and then
+%	starts SNAXS, and then tries to plot_toggle_linlog, SNAXS will "re-plot"...
+%	except that the DATA structure doesn't exist, so it crashes.
+%
+%	The graceful solution to this problem is probably to read the axes from the
+%	current figure in order to produce the data.  But that will take some work
+%	to handle correctly.  This is a stopgap that might be annoying, but at least
+%	doesn't crash.
+%
+%	Related: plot_SQW, plot_Qscan, and plot_Qscan_resconv all use different
+%	methods to get the Q array for the x-axis.  That should be standardized.
+
+	warning('  So sorry about this, but I have to close any currently-opened figures.  Later I will try to handle this more gracefully. ')
+	close all;
+
+
+end
+
 %% === MAIN MENU ===
 PAR=user_main_menu(PAR);
 
