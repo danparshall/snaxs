@@ -19,7 +19,7 @@ tau=round(Qprm);	% Nq x 3
 q=Qprm-tau;			% Nq x3
 tol=10;				% setting tolerance of q
 q=round(q.*(10^tol))/(10^tol);
-[unique_q,inda,ind_q]=unique(q,'rows');				% ind_q allows regeneration from unique
+[unique_q,~,ind_q]=unique(q,'rows');	 % ind_q allows regeneration from unique
 
 
 %% === call to calculation program, read data ===
@@ -51,7 +51,7 @@ PAR.VECS=VECS;
 
 
 %% === now calculate structure factor for VECS ===
-VECS=make_STRUFAC(PAR,Q_hkl);						% time spent here is trivial : 10 ms for 200 Q-points
+VECS=make_STRUFAC(PAR,Q_hkl);					% only 10 ms for 200 Q-points
 PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%
