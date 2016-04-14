@@ -20,9 +20,12 @@ function VECS=make_STRUFAC(PAR,Q_hkl,vecs);
 % The structure factor term (which is calculated here) is contained within the
 % magnitude bars (ignoring the Debeye-Waller factor).  In Squires, it is:
 %	sumon_d (b_d/sqrt(M_d)) * exp(i K.d) * (K.eig_ds)
-% where b_d is cross section for each atom, M_d is mass for each atom
-% d is the position of each atom, K is the momentum transfer Q, and eig_ds
-% is the polarization vector.
+% where :
+%	b_d is cross section for each atom
+%	M_d is mass for each atom
+%	d is the position of each atom
+%	K is the momentum transfer Q
+%	eig_ds is the polarization vector.
 %
 % The code below is closely based on Rolf Heid's "print_strufa" subroutine, from
 % forcon.f90.  The basic equation used is:
@@ -49,7 +52,6 @@ atom_kind=cell(N_atom,1);
 for ind_at=1:N_atom
 	atom_kind{ind_at}= XTAL.atom_types{XTAL.atom_kind(ind_at)};
 end
-
 
 %%%%%%%%%%%%%%
 % generate cdis (complex polarization vector)
@@ -126,7 +128,10 @@ strufac= cs .* conj(cs) .* repmat(1./Qc2',N_modes,1) *fac;
 
 %%% OUTPUT %%%
 VECS.strufac=strufac;
-VECS.qs=Qprm;
+
+tol = 10;
+qs = Qprm - round(Qprm);
+VECS.qs = round(qs.*(10^tol))/(10^tol);
 
 
 %% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

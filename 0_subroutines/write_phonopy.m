@@ -25,7 +25,7 @@ else
 end
 
 %% check if BORN file is in use, flag if so
-[stat, res] = system('ls BORN');
+[stat, res] = system('ls BORN');	% Octave bug: prints res to screen if not found
 if stat==0	% because bash
 	born=1;
 else
