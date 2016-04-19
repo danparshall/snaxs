@@ -4,4 +4,3 @@ function vel=calc_eng_to_vel(eng);
 
 vel = 630.2*2*pi*sqrt(eng/81.82);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

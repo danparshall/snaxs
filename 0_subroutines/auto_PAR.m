@@ -72,4 +72,3 @@ PAR.INFO.title='Metadata about the scans to be calculated.';
 PAR.DATA.title='Calculated data for a particular scan.';
 PAR.VECS.title='Eigenvectors and structure factors.';
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

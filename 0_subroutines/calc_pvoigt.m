@@ -40,4 +40,3 @@ pvoigt_y= eta.*lorentz_y + (1-eta).*gaussian_y;
 pknorm = repmat( max(pvoigt_y), length(x_array), 1);
 pvoigt_y= hts .* pvoigt_y ./ pknorm;
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

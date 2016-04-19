@@ -62,4 +62,3 @@ while run 			% runs until some input received is 'x'
 	PAR=plot_Qscan(PAR);
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

@@ -51,4 +51,3 @@ for ind_atom=1:size(ATOMS.atom_type,1);
 	polarization(ind_atom,:)=this_pol;
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

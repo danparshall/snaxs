@@ -6,4 +6,3 @@ function frac_positions=calc_atom_pos_frac(PAR);
 [XTAL,EXP,INFO,PLOT,DATA,VECS]=params_fetch(PAR);
 frac_positions = XTAL.atom_position * inv(EXP.basis_user)';
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

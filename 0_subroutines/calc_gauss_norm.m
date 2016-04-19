@@ -23,4 +23,3 @@ wid =repmat(HWHM, length(x_array), 1);
 sig = wid ./ sqrt(2*log(2));
 gauss = 1./(sig*sqrt(2*pi)) .* exp( -(eng - cens).^2 ./ (2*(sig.^2)) );
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

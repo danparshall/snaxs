@@ -39,4 +39,3 @@ PAR=simulate_multiQ(PAR, Q_hkl);
 %% === plot ===
 plot_dispersion(PAR);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

@@ -12,4 +12,3 @@ end
 Q_prm=calc_cnv_to_prm(XTAL, cnv, EXP);
 Q_mag=calc_Q_ang_prm(XTAL, Q_prm);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

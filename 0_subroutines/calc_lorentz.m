@@ -31,4 +31,3 @@ lorentz= wid ./ ( (eng-cens).^2 + (wid.^2) );
 pknorm = repmat(1./max(lorentz), length(x_array), 1);
 lorentz_y= hts .* lorentz .* pknorm;
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

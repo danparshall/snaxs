@@ -46,4 +46,3 @@ end
 %	recon= [ recon; repmat(unique_tau(ind,:),size(qset,1),1) + cellarray_qs{ind}];
 %end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

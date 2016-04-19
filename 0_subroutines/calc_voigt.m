@@ -103,4 +103,3 @@ nl = length(x);
 pknorm = repmat(1./max(voigt_y),length(eng),1);
 voigt_y = real(voigt_y) .* hts .* pknorm;
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

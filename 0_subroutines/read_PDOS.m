@@ -71,4 +71,3 @@ DOS.gdos=gdos;
 DOS.energy=energy;
 PAR.DOS=DOS;
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

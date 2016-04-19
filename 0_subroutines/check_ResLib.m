@@ -257,4 +257,3 @@ end
 
 PAR=params_update(XTAL,EXP_orig,INFO,PLOT,DATA,VECS);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

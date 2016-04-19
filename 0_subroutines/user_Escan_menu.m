@@ -58,4 +58,3 @@ while run 				% runs until Q-input received is 'x'
 	end
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

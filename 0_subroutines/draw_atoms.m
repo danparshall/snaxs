@@ -19,4 +19,3 @@ r_array= r_array * PLOT.scale_atom;
 atom_handles = bubbleplot3( atom_position(:,1), atom_position(:,2), ...
 								atom_position(:,3), r_array, color_array );
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

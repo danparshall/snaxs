@@ -121,4 +121,3 @@ PAR=user_main_menu(PAR);
 %% === CLEANUP WHEN CLOSING === (comment out this line to save output)
 system_cleanup(PAR.XTAL.calc_method);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

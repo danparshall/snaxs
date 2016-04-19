@@ -184,4 +184,3 @@ DATA.Q_delta=Q_delta;
 PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 toc;
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

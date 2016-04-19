@@ -20,4 +20,3 @@ else
 	Q_mag=calc_Q_ang_cnv(XTAL, cnv, EXP);
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

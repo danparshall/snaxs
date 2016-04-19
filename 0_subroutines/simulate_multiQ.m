@@ -54,4 +54,3 @@ PAR.VECS=VECS;
 VECS=make_STRUFAC(PAR,Q_hkl);					% only 10 ms for 200 Q-points
 PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

@@ -53,4 +53,3 @@ end
 set(gcf,'name','Q-scan');
 plot_pretty(PAR,fh,fa,'qscan');
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

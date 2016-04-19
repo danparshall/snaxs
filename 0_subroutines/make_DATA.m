@@ -9,4 +9,3 @@ DATA.int = zeros(size(DATA.eng));
 DATA.linewidths=[];
 DATA.mask=[];
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

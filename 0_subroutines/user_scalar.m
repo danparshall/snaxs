@@ -84,4 +84,3 @@ if isnumeric(output) & length(output)~=1
 	warning(' Wrong output length.');
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

@@ -118,4 +118,3 @@ if (nRow~=XTAL.N_atom) | (nCol~=3)
 end
 XTAL.atom_position = atom_position;
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

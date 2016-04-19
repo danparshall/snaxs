@@ -10,4 +10,3 @@ vec3=linspace(vec_min(3),vec_max(3),Npts);
 
 vec_out=[vec1(:) vec2(:) vec3(:)];
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

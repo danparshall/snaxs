@@ -20,4 +20,3 @@ fa=gca;
 axis([min(Q_array) max(Q_array) min(E_array) max(E_array)]);
 plot_pretty(PAR,fh,fa,'disp');
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

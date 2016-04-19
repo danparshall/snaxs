@@ -33,4 +33,3 @@ function display_current_data(PAR)
 	display_atom_pos(PAR);
 	draw_crystal(PAR,PAR.PLOT.expansion);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

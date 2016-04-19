@@ -143,4 +143,3 @@ defINFO=DEFAULTS('INFO');
 INFO.convmethod= defINFO.convmethod;
 PAR=params_update(XTAL,EXP,INFO,PLOT,DATA,VECS);
 
-%% ## This file distributed with SNAXS beta 0.9.9, released 07-Apr-2015 ## %%

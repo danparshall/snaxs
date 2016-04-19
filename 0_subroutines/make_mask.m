@@ -9,4 +9,3 @@ DATA.mask = mask_hi .* mask_lo;
 
 DATA.mask(DATA.mask==0) = NaN;
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

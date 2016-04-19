@@ -33,4 +33,3 @@ for ind_atom=1:size(unit_cell_pos,1)
 end
 disp(' ');
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

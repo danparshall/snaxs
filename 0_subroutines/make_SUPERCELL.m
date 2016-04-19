@@ -65,4 +65,3 @@ for ind=1:XTAL.N_atom
 end
 SUPER.atom_type=repmat( type, prod(expabs), 1);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

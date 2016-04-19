@@ -115,4 +115,3 @@ if status % system returns 0 if everything is fine, any other value is an error
 	end
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

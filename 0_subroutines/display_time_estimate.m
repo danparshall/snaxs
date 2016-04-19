@@ -70,4 +70,3 @@ elseif estime > 10
 	disp('     You probably have time for coffee.');
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

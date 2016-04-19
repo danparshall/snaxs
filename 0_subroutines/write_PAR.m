@@ -9,4 +9,3 @@ disp(['  Saving to "' filename '"']);
 
 save(filename, '-struct','PAR');	% this should save the fields of PAR
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

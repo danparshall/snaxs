@@ -100,4 +100,3 @@ while choice >= 0;
 	end
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

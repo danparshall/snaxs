@@ -67,4 +67,3 @@ end
 height = strufac .* Q2 .* bose .* KfKi ./ XTAL.N_atom;
 
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

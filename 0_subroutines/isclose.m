@@ -9,4 +9,3 @@ end
 
 tf = isequal( size(x),size(y) )   &&   all( abs(x(:)-y(:)) < tolerance );
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

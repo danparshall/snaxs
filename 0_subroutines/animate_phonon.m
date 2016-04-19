@@ -41,4 +41,3 @@ cab('last');	% close all but last (which has the anymation)
 disp('  ...finished! Press PLAY (single triangle) button to run.');
 toc;
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

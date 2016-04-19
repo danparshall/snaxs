@@ -4,4 +4,3 @@ function mom=calc_eng_to_mom(eng);
 
 mom = sqrt(eng/2.072);
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

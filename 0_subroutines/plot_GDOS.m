@@ -15,4 +15,3 @@ fh=plot(energy,gdos);
 fa=gca;
 plot_pretty(PAR,fh,fa,'gdos');
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

@@ -138,4 +138,3 @@ switch request
 		disp('  ERROR in "DEFAULTS.m" : the requested data could not be found')
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%

@@ -146,4 +146,3 @@ if isempty(atom_number)
 	error(' The given atom can not be found');
 end
 
-%% ## This file distributed with SNAXS beta 0.99, released 12-May-2015 ## %%
