@@ -4,7 +4,7 @@ import numpy as np
 
 ################################################################################
 
-def checkSequence( fcmList, nAtom ):
+def labelSequence( fcmList, nAtom ):
 	"""
 	Results calculated with VASP vs QuantumEspresso will have various numerical
 	differences.  But the symmetry of FCMs should be the same in both systems.
@@ -35,7 +35,7 @@ def checkSequence( fcmList, nAtom ):
 		# this is an option for rounding off according to tolerance level
 		matList = []
 		for num in inList:
-			tol = 1E+5
+			tol = 1E+9
 			matList.append(round(tol*num) / tol)
 
 		"""
@@ -84,8 +84,8 @@ def compareSequence():
 	assert len(phList) == len(qeList), "FCM from phonopy and from QE should have same length"
 
 
-	phInds, phMats = checkSequence( phList, int(phList[0]) )	# first line has number of atoms
-	qeInds, qeMats = checkSequence( qeList, int(phList[0]) )	# first line has number of atoms
+	phInds, phMats = labelSequence( phList, int(phList[0]) )	# first line has number of atoms
+	qeInds, qeMats = labelSequence( qeList, int(phList[0]) )	# first line has number of atoms
 
 	comp = phInds != qeInds
 	print find(comp)
