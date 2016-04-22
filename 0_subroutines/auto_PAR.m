@@ -71,4 +71,5 @@ if ~isfield(PAR,'PLOT'); PAR.PLOT=DEFAULTS('PLOT'); end
 PAR.INFO.title='Metadata about the scans to be calculated.';
 PAR.DATA.title='Calculated data for a particular scan.';
 PAR.VECS.title='Eigenvectors and structure factors.';
+system_initialize(PAR);
 
