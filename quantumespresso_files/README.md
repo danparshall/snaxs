@@ -1,5 +1,3 @@
-
-
 This script should translate phonon calculations done using QuantumEspresso into the format used by Phonopy.
 
 I've tested this by comparing the results of an MgB2 calculation done with QE to the MgB2 result provided with Phonopy.

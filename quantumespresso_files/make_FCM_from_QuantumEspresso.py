@@ -31,7 +31,7 @@ import itertools as it
 # Format is first the unique numeric ID for the atom, then the chemical symbol, then the unit cell for the atom.
 
 
-debug = 1
+debug = 0
 
 ################################################################################
 
@@ -216,6 +216,8 @@ def makeFCM(filename):
 		# all atom-atom interactions for a given direction
 		dirLines = forceList[ iXYZ*forceLength : (iXYZ+1)*forceLength ]
 
+		if debug:
+			print dirLines
 
 		# within each direction, there are nAtom**2 chunks, each of length nCell+1
 		for iGroup in range( nAtom**2 ):
